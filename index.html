@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover" />
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <title>云焕非遗 - 英歌文化数字展示平台</title>
+    <script type="module">
+      if (import.meta.hot?.on) {
+        import.meta.hot.on('vite:error', (error) => {
+          if (error.err) {
+            console.error(
+              [error.err.message, error.err.frame].filter(Boolean).join('\n'),
+            )
+          }
+        })
+      }
+    </script>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+
+      html {
+        scroll-behavior: auto !important;
+      }
+
+      .pre-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #8B0000;
+        z-index: 99999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        transition: opacity 0.8s ease, visibility 0.8s ease;
+      }
+
+      .pre-loader.fade-out {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .pre-loader-3d-scene {
+        width: 100px;
+        height: 100px;
+        perspective: 400px;
+        perspective-origin: 50% 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 24px;
+      }
+
+      .pre-loader-3d-shield {
+        width: 80px;
+        height: 80px;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: shieldRotate 4s linear infinite;
+      }
+
+      @keyframes shieldRotate {
+        from { transform: rotateX(-10deg) rotateY(0deg); }
+        to { transform: rotateX(-10deg) rotateY(360deg); }
+      }
+
+      .pre-loader-3d-face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+        transform: translateZ(12px);
+      }
+
+      .pre-loader-3d-face img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        display: block;
+      }
+
+      .pre-loader-3d-dome {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        pointer-events: none;
+        background:
+          radial-gradient(ellipse 48% 42% at 47% 40%, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.08) 18%, transparent 45%),
+          radial-gradient(ellipse 80% 75% at 50% 50%, transparent 18%, rgba(0,0,0,0.15) 55%, rgba(0,0,0,0.3) 100%);
+      }
+
+      .pre-loader-3d-rim {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        pointer-events: none;
+        border: 2px solid transparent;
+        background:
+          linear-gradient(160deg, rgba(230,200,100,0.7), rgba(160,100,220,0.5), rgba(100,60,180,0.4), rgba(230,200,100,0.6)) border-box;
+        -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+      }
+
+      .pre-loader-3d-sheen {
+        position: absolute;
+        inset: -10%;
+        border-radius: 50%;
+        pointer-events: none;
+        opacity: 0.45;
+        mix-blend-mode: overlay;
+        background: radial-gradient(ellipse 28% 32% at 60% 50%, rgba(255,255,255,0.5) 0%, transparent 70%);
+        animation: sheenMove 4s linear infinite;
+      }
+
+      @keyframes sheenMove {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 200% 50%; }
+      }
+
+      .pre-loader-3d-edge {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+
+      .pre-loader-3d-glow {
+        position: absolute;
+        width: 115%;
+        height: 115%;
+        top: -7.5%;
+        left: -7.5%;
+        border-radius: 50%;
+        z-index: -1;
+        background: radial-gradient(circle, rgba(200,160,96,0.35) 30%, transparent 65%);
+        filter: blur(10px);
+        animation: glowPulse 2s ease-in-out infinite;
+      }
+
+      @keyframes glowPulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.7; transform: scale(1.08); }
+      }
+
+      .pre-loader-3d-rivet {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 35%, #f0dca0, #b09050, #705830);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.6), inset 0 1px 2px rgba(255,255,255,0.4);
+        transform: translateZ(14px);
+      }
+
+      .pre-loader-text {
+        color: #C8A060;
+        font-size: 14px;
+        letter-spacing: 0.3em;
+        margin-bottom: 20px;
+        font-family: 'Noto Serif SC', 'Songti SC', serif;
+      }
+
+      .pre-loader-bar {
+        width: 200px;
+        height: 2px;
+        background: rgba(200, 160, 96, 0.2);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+
+      .pre-loader-progress {
+        height: 100%;
+        background: linear-gradient(90deg, #C8A060, #E8C878);
+        border-radius: 2px;
+        width: 0%;
+        transition: width 0.3s ease;
+      }
+
+      .pre-loader-percent {
+        color: rgba(200, 160, 96, 0.6);
+        font-size: 12px;
+        margin-top: 12px;
+        font-family: monospace;
+        letter-spacing: 2px;
+      }
+
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 2px solid rgba(200, 160, 96, 0.2);
+        border-top-color: #C8A060;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 20px;
+      }
+
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+
+      /* === 加载过程中的强化动画 === */
+      /* 进度条流光 */
+      .pre-loader-progress {
+        position: relative;
+        overflow: hidden;
+      }
+      .pre-loader-progress::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 40%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+        animation: progressShine 1.5s ease-in-out infinite;
+      }
+      @keyframes progressShine {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(350%); }
+      }
+
+      /* 文字渐入波动 */
+      .pre-loader-text {
+        animation: textFadeWave 2.5s ease-in-out infinite;
+      }
+      @keyframes textFadeWave {
+        0%, 100% { opacity: 0.7; transform: translateY(0); letter-spacing: 0.3em; }
+        50% { opacity: 1; transform: translateY(-2px); letter-spacing: 0.4em; }
+      }
+
+      /* 百分比数字脉冲 */
+      .pre-loader-percent {
+        animation: percentPulse 1.2s ease-in-out infinite;
+      }
+      @keyframes percentPulse {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+      }
+
+      /* 背景光点粒子 */
+      .pre-loader-particles {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      .pre-loader-particle {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background: rgba(200, 160, 96, 0.6);
+        animation: particleFloat linear infinite;
+      }
+      @keyframes particleFloat {
+        0% { transform: translateY(100vh) scale(0); opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+      }
+
+      /* === 多种退出动画 === */
+      /* 1. 渐出上移 */
+      .exit-fade-up {
+        animation: exitFadeUp 0.9s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+      }
+      @keyframes exitFadeUp {
+        0% { opacity: 1; transform: translateY(0); }
+        100% { opacity: 0; transform: translateY(-80px); }
+      }
+
+      /* 2. 溶解模糊 */
+      .exit-dissolve {
+        animation: exitDissolve 0.9s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+      }
+      @keyframes exitDissolve {
+        0% { opacity: 1; filter: blur(0); transform: scale(1); }
+        100% { opacity: 0; filter: blur(30px); transform: scale(1.15); }
+      }
+
+      /* 3. 水平分裂展开 */
+      .exit-split {
+        animation: exitSplit 0.9s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+      }
+      @keyframes exitSplit {
+        0% { opacity: 1; clip-path: inset(0 0 0 0); transform: scale(1); }
+        100% { opacity: 0; clip-path: inset(50% 0 50% 0); transform: scale(1.3); }
+      }
+
+      /* 4. 漩涡收缩 */
+      .exit-vortex {
+        animation: exitVortex 0.9s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+      }
+      @keyframes exitVortex {
+        0% { opacity: 1; transform: scale(1) rotate(0deg); }
+        100% { opacity: 0; transform: scale(0.3) rotate(540deg); }
+      }
+
+      /* 5. 百叶窗 */
+      .exit-shutter {
+        animation: exitShutter 0.9s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+      }
+      @keyframes exitShutter {
+        0% { opacity: 1; clip-path: inset(0 0 100% 0); }
+        49% { opacity: 1; clip-path: inset(0 0 0 0); }
+        50% { opacity: 1; clip-path: inset(0 0 0 0); transform: scaleY(1); }
+        100% { opacity: 0; clip-path: inset(0 0 0 0); transform: scaleY(0.01); }
+      }
+
+      /* 6. 光晕爆发 */
+      .exit-glow-burst {
+        animation: exitGlowBurst 0.9s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+      }
+      @keyframes exitGlowBurst {
+        0% { opacity: 1; filter: brightness(1); transform: scale(1); }
+        40% { opacity: 1; filter: brightness(2.5); transform: scale(1.05); }
+        100% { opacity: 0; filter: brightness(4); transform: scale(1.4); }
+      }
+
+      /* 7. 波动消散 */
+      .exit-wave {
+        animation: exitWave 0.9s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+      }
+      @keyframes exitWave {
+        0% { opacity: 1; transform: translateY(0) skewY(0deg); filter: blur(0); }
+        50% { opacity: 0.5; transform: translateY(20px) skewY(3deg); filter: blur(8px); }
+        100% { opacity: 0; transform: translateY(60px) skewY(0deg); filter: blur(20px); }
+      }
+
+      /* 8. 虹膜缩放 */
+      .exit-iris {
+        animation: exitIris 0.9s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+      }
+      @keyframes exitIris {
+        0% { opacity: 1; clip-path: circle(150% at 50% 50%); transform: scale(1); }
+        100% { opacity: 0; clip-path: circle(0% at 50% 50%); transform: scale(1.2); }
+      }
+
+      /* 9. 左右滑出 */
+      .exit-slide {
+        animation: exitSlide 0.9s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+      }
+      @keyframes exitSlide {
+        0% { opacity: 1; transform: translateX(0) rotate(0deg); }
+        100% { opacity: 0; transform: translateX(120%) rotate(15deg); }
+      }
+
+      /* 10. 翻转退出 */
+      .exit-flip {
+        animation: exitFlip 0.9s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+      }
+      @keyframes exitFlip {
+        0% { opacity: 1; transform: perspective(1000px) rotateX(0deg); }
+        100% { opacity: 0; transform: perspective(1000px) rotateX(90deg); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="pre-loader" id="preLoader">
+      <div class="pre-loader-particles" id="preLoaderParticles"></div>
+      <div class="pre-loader-3d-scene">
+        <div class="pre-loader-3d-shield">
+          <div class="pre-loader-3d-glow"></div>
+          <div class="pre-loader-3d-face">
+            <img src="/emblem.jpg" alt="队徽" />
+            <div class="pre-loader-3d-dome"></div>
+            <div class="pre-loader-3d-rim"></div>
+            <div class="pre-loader-3d-sheen"></div>
+          </div>
+          <div class="pre-loader-3d-rivet" style="top:4%; left:50%; transform:translateX(-50%) translateZ(14px)"></div>
+          <div class="pre-loader-3d-rivet" style="bottom:4%; left:50%; transform:translateX(-50%) translateZ(14px)"></div>
+          <div class="pre-loader-3d-rivet" style="top:50%; left:4%; transform:translateY(-50%) translateZ(14px)"></div>
+          <div class="pre-loader-3d-rivet" style="top:50%; right:4%; transform:translateY(-50%) translateZ(14px)"></div>
+        </div>
+      </div>
+      <div class="pre-loader-text">云焕非遗</div>
+      <div class="pre-loader-bar">
+        <div class="pre-loader-progress" id="preLoaderProgress"></div>
+      </div>
+      <div class="pre-loader-percent" id="preLoaderPercent">0%</div>
+    </div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Save, RotateCcw } from 'lucide-react';
 import api from '@/lib/api';
 import ImageUploader from '@/components/ImageUploader';
+import VideoUploader from '@/components/VideoUploader';
 
 export function AdminHome() {
   const [loading, setLoading] = useState(true);
@@ -101,14 +102,12 @@ export function AdminHome() {
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Hero 区域</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">主标题</label>
-              <input
-                type="text"
-                value={formData.hero.title}
-                onChange={(e) =>
-                  setFormData({ ...formData, hero: { ...formData.hero, title: e.target.value } })
+              <VideoUploader
+                label="视频（可选）"
+                value={formData.hero.videoUrl}
+                onChange={(url) =>
+                  setFormData({ ...formData, hero: { ...formData.hero, videoUrl: url } })
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yingge-gold focus:border-transparent outline-none"
               />
             </div>
             <div>
@@ -143,14 +142,12 @@ export function AdminHome() {
               />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">视频URL（可选）</label>
-              <input
-                type="text"
+              <VideoUploader
+                label="视频（可选）"
                 value={formData.hero.videoUrl}
-                onChange={(e) =>
-                  setFormData({ ...formData, hero: { ...formData.hero, videoUrl: e.target.value } })
+                onChange={(url) =>
+                  setFormData({ ...formData, hero: { ...formData.hero, videoUrl: url } })
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yingge-gold focus:border-transparent outline-none"
               />
             </div>
           </div>

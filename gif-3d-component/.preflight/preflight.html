@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preflight</title>
+    <style id="theme-vars">
+/* GIF 3D Component — Brand CSS */
+:root {
+  --gif3d-background: #0a0a0f;
+  --gif3d-foreground: #f0e6d3;
+  --gif3d-card: #1a1a2e;
+  --gif3d-card-foreground: #f0e6d3;
+  --gif3d-popover: #1a1a2e;
+  --gif3d-popover-foreground: #f0e6d3;
+  --gif3d-primary: #c41e3a;
+  --gif3d-primary-foreground: #ffffff;
+  --gif3d-muted: #2a2a3e;
+  --gif3d-muted-foreground: #a09888;
+  --gif3d-border: #3a3a4e;
+  --gif3d-input: #2a2a3e;
+  --gif3d-ring: #c41e3a;
+  --gif3d-radius-sm: 8px;
+  --gif3d-radius-md: 12px;
+  --gif3d-radius-lg: 20px;
+  --gif3d-gold: #d4a853;
+  --gif3d-gold-light: #f0d080;
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--gif3d-background);
+    --color-foreground: var(--gif3d-foreground);
+    --color-card: var(--gif3d-card);
+    --color-card-foreground: var(--gif3d-card-foreground);
+    --color-popover: var(--gif3d-popover);
+    --color-popover-foreground: var(--gif3d-popover-foreground);
+    --color-primary: var(--gif3d-primary);
+    --color-primary-foreground: var(--gif3d-primary-foreground);
+    --color-muted: var(--gif3d-muted);
+    --color-muted-foreground: var(--gif3d-muted-foreground);
+    --color-border: var(--gif3d-border);
+    --color-input: var(--gif3d-input);
+    --color-ring: var(--gif3d-ring);
+    --radius-sm: var(--gif3d-radius-sm);
+    --radius-md: var(--gif3d-radius-md);
+    --radius-lg: var(--gif3d-radius-lg);
+  }
+  @layer base {
+    body { background: var(--gif3d-background); color: var(--gif3d-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--gif3d-background); }
+      .text-background { color: var(--gif3d-background); }
+      .border-background { border-color: var(--gif3d-background); }
+      .ring-background { --tw-ring-color: var(--gif3d-background); }
+      .bg-foreground { background-color: var(--gif3d-foreground); }
+      .text-foreground { color: var(--gif3d-foreground); }
+      .border-foreground { border-color: var(--gif3d-foreground); }
+      .ring-foreground { --tw-ring-color: var(--gif3d-foreground); }
+      .bg-card { background-color: var(--gif3d-card); }
+      .text-card { color: var(--gif3d-card); }
+      .border-card { border-color: var(--gif3d-card); }
+      .ring-card { --tw-ring-color: var(--gif3d-card); }
+      .bg-card-foreground { background-color: var(--gif3d-card-foreground); }
+      .text-card-foreground { color: var(--gif3d-card-foreground); }
+      .border-card-foreground { border-color: var(--gif3d-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--gif3d-card-foreground); }
+      .bg-popover { background-color: var(--gif3d-popover); }
+      .text-popover { color: var(--gif3d-popover); }
+      .border-popover { border-color: var(--gif3d-popover); }
+      .ring-popover { --tw-ring-color: var(--gif3d-popover); }
+      .bg-popover-foreground { background-color: var(--gif3d-popover-foreground); }
+      .text-popover-foreground { color: var(--gif3d-popover-foreground); }
+      .border-popover-foreground { border-color: var(--gif3d-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--gif3d-popover-foreground); }
+      .bg-primary { background-color: var(--gif3d-primary); }
+      .text-primary { color: var(--gif3d-primary); }
+      .border-primary { border-color: var(--gif3d-primary); }
+      .ring-primary { --tw-ring-color: var(--gif3d-primary); }
+      .bg-primary-foreground { background-color: var(--gif3d-primary-foreground); }
+      .text-primary-foreground { color: var(--gif3d-primary-foreground); }
+      .border-primary-foreground { border-color: var(--gif3d-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--gif3d-primary-foreground); }
+      .bg-muted { background-color: var(--gif3d-muted); }
+      .text-muted { color: var(--gif3d-muted); }
+      .border-muted { border-color: var(--gif3d-muted); }
+      .ring-muted { --tw-ring-color: var(--gif3d-muted); }
+      .bg-muted-foreground { background-color: var(--gif3d-muted-foreground); }
+      .text-muted-foreground { color: var(--gif3d-muted-foreground); }
+      .border-muted-foreground { border-color: var(--gif3d-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--gif3d-muted-foreground); }
+      .bg-border { background-color: var(--gif3d-border); }
+      .text-border { color: var(--gif3d-border); }
+      .border-border { border-color: var(--gif3d-border); }
+      .ring-border { --tw-ring-color: var(--gif3d-border); }
+      .bg-input { background-color: var(--gif3d-input); }
+      .text-input { color: var(--gif3d-input); }
+      .border-input { border-color: var(--gif3d-input); }
+      .ring-input { --tw-ring-color: var(--gif3d-input); }
+      .bg-ring { background-color: var(--gif3d-ring); }
+      .text-ring { color: var(--gif3d-ring); }
+      .border-ring { border-color: var(--gif3d-ring); }
+      .ring-ring { --tw-ring-color: var(--gif3d-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main>
+    </main>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

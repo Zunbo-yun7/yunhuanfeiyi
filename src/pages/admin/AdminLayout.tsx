@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Navigate, Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import useAdminStore from '@/store/admin';
 import {
   Home,
   BookOpen,
@@ -13,12 +14,15 @@ import {
   X,
   FileText,
   Calendar,
+  Newspaper,
+  MessageCircle,
 } from 'lucide-react';
-import useAdminStore from '@/store/admin';
 
 const menuItems = [
   { path: '/admin/dashboard', label: '仪表盘', icon: LayoutDashboard },
   { path: '/admin/home', label: '首页管理', icon: Home },
+  { path: '/admin/news', label: '新闻稿管理', icon: Newspaper },
+  { path: '/admin/wechat', label: '公众号文章', icon: MessageCircle },
   { path: '/admin/about', label: '认识英歌', icon: BookOpen },
   { path: '/admin/xintan', label: '新坛英歌', icon: MapPin },
   { path: '/admin/actions', label: '动作图谱', icon: Move },

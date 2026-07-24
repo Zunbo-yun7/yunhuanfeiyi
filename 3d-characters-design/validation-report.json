@@ -1,0 +1,36 @@
+{
+  "success": true,
+  "skillProvenance": {
+    "name": "solo-design",
+    "version": null,
+    "version_source": "unknown",
+    "runtime_skill_dir": null,
+    "recorded_at": null,
+    "read_status": "missing",
+    "reason": "orchestration-summary.json missing skillProvenance"
+  },
+  "operatingMode": "free-explore",
+  "renderBlockingErrorCount": 0,
+  "softWarningCount": 4,
+  "renderBlockingErrors": [],
+  "softWarnings": [
+    "[html-head-style] characters.html: found 1 custom <style> block(s) in <head>. The <head> is owned by fill-html-head.mjs; move custom styles before </body> or re-run fill-html-head.mjs <css-path> <html-file> --replace-head to relocate them.",
+    "[orchestration-summary] orchestration-summary.json is missing. Canvas validation can still pass, but quality-context checks (operatingMode, visualNorthStar, compositionPattern, continuityAnchors, miniProgramStyle) are degraded.",
+    "[html-quality] characters.html: hardcoded colors are forbidden outside <style id=\"theme-vars\">. Use brand CSS variables from the token reference.",
+    "[html-quality] gif-component.html: hardcoded colors are forbidden outside <style id=\"theme-vars\">. Use brand CSS variables from the token reference."
+  ],
+  "repairPlanHints": [],
+  "errorCount": 0,
+  "warningCount": 4,
+  "errors": [],
+  "warnings": [
+    "[html-head-style] characters.html: found 1 custom <style> block(s) in <head>. The <head> is owned by fill-html-head.mjs; move custom styles before </body> or re-run fill-html-head.mjs <css-path> <html-file> --replace-head to relocate them.",
+    "[orchestration-summary] orchestration-summary.json is missing. Canvas validation can still pass, but quality-context checks (operatingMode, visualNorthStar, compositionPattern, continuityAnchors, miniProgramStyle) are degraded.",
+    "[html-quality] characters.html: hardcoded colors are forbidden outside <style id=\"theme-vars\">. Use brand CSS variables from the token reference.",
+    "[html-quality] gif-component.html: hardcoded colors are forbidden outside <style id=\"theme-vars\">. Use brand CSS variables from the token reference."
+  ],
+  "designDir": "c:\\Users\\Y90000P\\Desktop\\三下乡\\3d-characters-design",
+  "expectedPages": 2,
+  "requireInteractions": null,
+  "checkedAt": "2026-07-16T15:25:04.646Z"
+}

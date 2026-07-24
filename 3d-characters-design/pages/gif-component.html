@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D击鼓人GIF组件</title>
+    <style id="theme-vars">
+:root {
+  --char-primary: #C41E24;
+  --char-primary-light: #E8383F;
+  --char-primary-dark: #8B1519;
+  --char-gold: #D4A843;
+  --char-gold-light: #F0D78C;
+  --char-gold-dark: #A07830;
+  --char-green: #2D8B5E;
+  --char-green-light: #4CAF7D;
+  --char-green-dark: #1B5E3F;
+  --char-teal: #1A6B6B;
+  --char-teal-light: #2D9E9E;
+  --char-teal-dark: #0E4A4A;
+  --char-cream: #FFF8E7;
+  --char-cream-dark: #F5E6C8;
+  --char-black: #1A1A1A;
+  --char-white: #FEFEFE;
+  --char-gray: #6B6B6B;
+
+  --brand-background: #0F0F14;
+  --brand-foreground: #F0EDE6;
+  --brand-card: #1A1A22;
+  --brand-card-foreground: #F0EDE6;
+  --brand-primary: var(--char-primary);
+  --brand-primary-foreground: #FFFFFF;
+  --brand-muted: #2A2A35;
+  --brand-muted-foreground: #9A9AAE;
+  --brand-border: #2E2E3A;
+  --brand-input: #1E1E28;
+  --brand-ring: var(--char-gold);
+  --brand-radius-sm: 8px;
+  --brand-radius-md: 12px;
+  --brand-radius-lg: 16px;
+  --brand-popover: #1A1A22;
+  --brand-popover-foreground: #F0EDE6;
+}
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--brand-background);
+    --color-foreground: var(--brand-foreground);
+    --color-card: var(--brand-card);
+    --color-card-foreground: var(--brand-card-foreground);
+    --color-popover: var(--brand-popover);
+    --color-popover-foreground: var(--brand-popover-foreground);
+    --color-primary: var(--brand-primary);
+    --color-primary-foreground: var(--brand-primary-foreground);
+    --color-muted: var(--brand-muted);
+    --color-muted-foreground: var(--brand-muted-foreground);
+    --color-border: var(--brand-border);
+    --color-input: var(--brand-input);
+    --color-ring: var(--brand-ring);
+    --radius-sm: var(--brand-radius-sm);
+    --radius-md: var(--brand-radius-md);
+    --radius-lg: var(--brand-radius-lg);
+  }
+  @layer base {
+    body { background: var(--brand-background); color: var(--brand-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--brand-background); }
+      .text-background { color: var(--brand-background); }
+      .border-background { border-color: var(--brand-background); }
+      .ring-background { --tw-ring-color: var(--brand-background); }
+      .bg-foreground { background-color: var(--brand-foreground); }
+      .text-foreground { color: var(--brand-foreground); }
+      .border-foreground { border-color: var(--brand-foreground); }
+      .ring-foreground { --tw-ring-color: var(--brand-foreground); }
+      .bg-card { background-color: var(--brand-card); }
+      .text-card { color: var(--brand-card); }
+      .border-card { border-color: var(--brand-card); }
+      .ring-card { --tw-ring-color: var(--brand-card); }
+      .bg-card-foreground { background-color: var(--brand-card-foreground); }
+      .text-card-foreground { color: var(--brand-card-foreground); }
+      .border-card-foreground { border-color: var(--brand-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--brand-card-foreground); }
+      .bg-popover { background-color: var(--brand-popover); }
+      .text-popover { color: var(--brand-popover); }
+      .border-popover { border-color: var(--brand-popover); }
+      .ring-popover { --tw-ring-color: var(--brand-popover); }
+      .bg-popover-foreground { background-color: var(--brand-popover-foreground); }
+      .text-popover-foreground { color: var(--brand-popover-foreground); }
+      .border-popover-foreground { border-color: var(--brand-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--brand-popover-foreground); }
+      .bg-primary { background-color: var(--brand-primary); }
+      .text-primary { color: var(--brand-primary); }
+      .border-primary { border-color: var(--brand-primary); }
+      .ring-primary { --tw-ring-color: var(--brand-primary); }
+      .bg-primary-foreground { background-color: var(--brand-primary-foreground); }
+      .text-primary-foreground { color: var(--brand-primary-foreground); }
+      .border-primary-foreground { border-color: var(--brand-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--brand-primary-foreground); }
+      .bg-muted { background-color: var(--brand-muted); }
+      .text-muted { color: var(--brand-muted); }
+      .border-muted { border-color: var(--brand-muted); }
+      .ring-muted { --tw-ring-color: var(--brand-muted); }
+      .bg-muted-foreground { background-color: var(--brand-muted-foreground); }
+      .text-muted-foreground { color: var(--brand-muted-foreground); }
+      .border-muted-foreground { border-color: var(--brand-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--brand-muted-foreground); }
+      .bg-border { background-color: var(--brand-border); }
+      .text-border { color: var(--brand-border); }
+      .border-border { border-color: var(--brand-border); }
+      .ring-border { --tw-ring-color: var(--brand-border); }
+      .bg-input { background-color: var(--brand-input); }
+      .text-input { color: var(--brand-input); }
+      .border-input { border-color: var(--brand-input); }
+      .ring-input { --tw-ring-color: var(--brand-input); }
+      .bg-ring { background-color: var(--brand-ring); }
+      .text-ring { color: var(--brand-ring); }
+      .border-ring { border-color: var(--brand-ring); }
+      .ring-ring { --tw-ring-color: var(--brand-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main class="max-w-5xl mx-auto px-4 py-16">
+
+        <!-- Section 1: Live Preview -->
+        <section class="text-center mb-20">
+            <h1 class="text-4xl md:text-5xl font-bold text-foreground mb-3 tracking-tight">3D击鼓人组件</h1>
+            <p class="text-muted-foreground text-lg mb-12">可直接嵌入网页的动画组件</p>
+
+            <div class="preview-card">
+                <img src="../assets/opera-drummer-3d.gif"
+                     alt="3D击鼓人 - 中国戏曲风格旋转动画"
+                     width="300"
+                     class="preview-gif">
+            </div>
+            <p class="text-muted-foreground text-sm mt-6">360度旋转循环 / 白底透明 / 3D京剧击鼓人</p>
+        </section>
+
+        <!-- Section 2: Usage Examples -->
+        <section class="mb-20">
+            <h2 class="text-2xl font-bold text-foreground mb-2">使用示例</h2>
+            <p class="text-muted-foreground mb-8">三种嵌入方式，覆盖从简单到响应式的常见场景</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <!-- Card 1: 基础嵌入 -->
+                <div class="example-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-base font-semibold text-foreground">基础嵌入</h3>
+                        <span class="copy-btn">复制代码</span>
+                    </div>
+                    <div class="code-block">
+<pre><code><span class="code-tag">&lt;div</span> <span class="code-attr">class=</span><span class="code-str">"opera-drummer"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;img</span> <span class="code-attr">src=</span><span class="code-str">"opera-drummer-3d.gif"</span>
+       <span class="code-attr">alt=</span><span class="code-str">"3D击鼓人"</span>
+       <span class="code-attr">width=</span><span class="code-str">"200"</span><span class="code-tag">&gt;</span>
+<span class="code-tag">&lt;/div&gt;</span></code></pre>
+                    </div>
+                </div>
+
+                <!-- Card 2: 带容器样式 -->
+                <div class="example-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-base font-semibold text-foreground">带容器样式</h3>
+                        <span class="copy-btn">复制代码</span>
+                    </div>
+                    <div class="code-block">
+<pre><code><span class="code-tag">&lt;div</span> <span class="code-attr">class=</span><span class="code-str">"opera-drummer-container"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;img</span> <span class="code-attr">src=</span><span class="code-str">"opera-drummer-3d.gif"</span>
+       <span class="code-attr">alt=</span><span class="code-str">"3D击鼓人"</span>
+       <span class="code-attr">class=</span><span class="code-str">"opera-drummer-gif"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;p&gt;</span>英歌舞击鼓人<span class="code-tag">&lt;/p&gt;</span>
+<span class="code-tag">&lt;/div&gt;</span></code></pre>
+                    </div>
+                </div>
+
+                <!-- Card 3: 响应式适配 -->
+                <div class="example-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-base font-semibold text-foreground">响应式适配</h3>
+                        <span class="copy-btn">复制代码</span>
+                    </div>
+                    <div class="code-block">
+<pre><code><span class="code-tag">&lt;div</span> <span class="code-attr">class=</span><span class="code-str">"opera-drummer-responsive"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;img</span> <span class="code-attr">src=</span><span class="code-str">"opera-drummer-3d.gif"</span>
+       <span class="code-attr">alt=</span><span class="code-str">"3D击鼓人"</span>
+       <span class="code-attr">loading=</span><span class="code-str">"lazy"</span><span class="code-tag">&gt;</span>
+<span class="code-tag">&lt;/div&gt;</span></code></pre>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 3: Component CSS -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-foreground mb-2">组件 CSS</h2>
+            <p class="text-muted-foreground mb-8">复制以下 CSS 到你的项目中，即可使用上述全部样式类</p>
+
+            <div class="relative">
+                <span class="copy-btn absolute top-4 right-4 z-10">复制代码</span>
+                <div class="code-block code-block-lg">
+<pre><code><span class="code-comment">/* 3D击鼓人 GIF 组件样式 */</span>
+
+<span class="code-comment">/* 基础居中类 */</span>
+<span class="code-sel">.opera-drummer</span> {
+  <span class="code-prop">display</span>: <span class="code-val">inline-block</span>;
+  <span class="code-prop">text-align</span>: <span class="code-val">center</span>;
+}
+
+<span class="code-sel">.opera-drummer img</span> {
+  <span class="code-prop">display</span>: <span class="code-val">block</span>;
+}
+
+<span class="code-comment">/* 带容器样式 - 卡片式展示 */</span>
+<span class="code-sel">.opera-drummer-container</span> {
+  <span class="code-prop">display</span>: <span class="code-val">inline-flex</span>;
+  <span class="code-prop">flex-direction</span>: <span class="code-val">column</span>;
+  <span class="code-prop">align-items</span>: <span class="code-val">center</span>;
+  <span class="code-prop">padding</span>: <span class="code-val">24px</span>;
+  <span class="code-prop">border-radius</span>: <span class="code-val">16px</span>;
+  <span class="code-prop">background</span>: <span class="code-val">rgba(26, 26, 34, 0.9)</span>;
+  <span class="code-prop">border</span>: <span class="code-val">1px solid rgba(212, 168, 67, 0.15)</span>;
+  <span class="code-prop">text-align</span>: <span class="code-val">center</span>;
+}
+
+<span class="code-sel">.opera-drummer-container p</span> {
+  <span class="code-prop">margin-top</span>: <span class="code-val">12px</span>;
+  <span class="code-prop">font-size</span>: <span class="code-val">14px</span>;
+  <span class="code-prop">color</span>: <span class="code-val">#9A9AAE</span>;
+}
+
+<span class="code-comment">/* GIF 图片样式 + 悬停效果 */</span>
+<span class="code-sel">.opera-drummer-gif</span> {
+  <span class="code-prop">max-width</span>: <span class="code-val">100%</span>;
+  <span class="code-prop">height</span>: <span class="code-val">auto</span>;
+  <span class="code-prop">transition</span>: <span class="code-val">transform 0.3s ease, filter 0.3s ease</span>;
+}
+
+<span class="code-sel">.opera-drummer-gif:hover</span> {
+  <span class="code-prop">transform</span>: <span class="code-val">scale(1.08)</span>;
+  <span class="code-prop">filter</span>: <span class="code-val">drop-shadow(0 0 18px rgba(196, 30, 36, 0.5))
+         drop-shadow(0 0 6px rgba(212, 168, 67, 0.4))</span>;
+}
+
+<span class="code-comment">/* 响应式容器 */</span>
+<span class="code-sel">.opera-drummer-responsive</span> {
+  <span class="code-prop">width</span>: <span class="code-val">100%</span>;
+  <span class="code-prop">max-width</span>: <span class="code-val">300px</span>;
+  <span class="code-prop">margin</span>: <span class="code-val">0 auto</span>;
+}
+
+<span class="code-sel">.opera-drummer-responsive img</span> {
+  <span class="code-prop">width</span>: <span class="code-val">100%</span>;
+  <span class="code-prop">height</span>: <span class="code-val">auto</span>;
+  <span class="code-prop">display</span>: <span class="code-val">block</span>;
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <style>
+        /* ---- Preview Card ---- */
+        .preview-card {
+            display: inline-block;
+            position: relative;
+            padding: 40px 56px;
+            background: var(--brand-card);
+            border: 1px solid var(--brand-border);
+            border-radius: var(--brand-radius-lg);
+            box-shadow:
+                0 0 40px rgba(196, 30, 36, 0.12),
+                0 0 80px rgba(212, 168, 67, 0.08),
+                0 8px 32px rgba(0, 0, 0, 0.4);
+            animation: previewPulse 3s ease-in-out infinite;
+        }
+
+        .preview-gif {
+            display: block;
+            width: 300px;
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 0 20px rgba(196, 30, 36, 0.3))
+                    drop-shadow(0 0 8px rgba(212, 168, 67, 0.25));
+        }
+
+        @keyframes previewPulse {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        /* ---- Example Cards ---- */
+        .example-card {
+            background: var(--brand-card);
+            border: 1px solid var(--brand-border);
+            border-radius: var(--brand-radius-md);
+            padding: 20px;
+            transition: border-color 0.2s ease;
+        }
+
+        .example-card:hover {
+            border-color: var(--brand-ring);
+        }
+
+        /* ---- Code Blocks ---- */
+        .code-block {
+            background: #12121A;
+            border: 1px solid var(--brand-border);
+            border-radius: var(--brand-radius-sm);
+            padding: 16px;
+            overflow-x: auto;
+            font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            color: var(--brand-foreground);
+        }
+
+        .code-block-lg {
+            padding: 24px;
+            font-size: 13.5px;
+            line-height: 1.8;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre;
+        }
+
+        /* Syntax coloring */
+        .code-tag { color: #C41E24; }
+        .code-attr { color: #D4A843; }
+        .code-str { color: #4CAF7D; }
+        .code-comment { color: #5A5A70; font-style: italic; }
+        .code-sel { color: #2D9E9E; }
+        .code-prop { color: #D4A843; }
+        .code-val { color: #F0EDE6; }
+
+        /* ---- Copy Button ---- */
+        .copy-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--brand-muted-foreground);
+            background: var(--brand-muted);
+            border: 1px solid var(--brand-border);
+            border-radius: 6px;
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.15s, border-color 0.15s;
+        }
+
+        .copy-btn:hover {
+            color: var(--brand-ring);
+            border-color: var(--brand-ring);
+        }
+    </style>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>

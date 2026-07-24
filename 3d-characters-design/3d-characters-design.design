@@ -1,0 +1,39 @@
+{
+  "data": [
+    {
+      "id": "page-gif-component",
+      "title": "3D击鼓人GIF组件",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1752768000000,
+      "canvasData": {
+        "x": 0,
+        "y": 0,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/gif-component.html",
+        "interactions": []
+      }
+    },
+    {
+      "id": "image-001",
+      "title": "3D击鼓人旋转GIF",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1752768000000,
+      "canvasData": {
+        "x": 0,
+        "y": 915
+      },
+      "devMetadata": {
+        "imageSrc": "assets/opera-drummer-3d.gif"
+      }
+    }
+  ],
+  "config": {
+    "autoLayout": true,
+    "deviceType": "desktop",
+    "projectName": "3D戏曲立体小人"
+  }
+}

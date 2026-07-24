@@ -231,10 +231,15 @@ INSERT INTO equipment_categories (category, sort_order) VALUES
 ('道具', 3);
 
 INSERT INTO equipment_items (category_id, name, description, image, details, sort_order) VALUES
-(1, '程咬金', '程咬金是英歌舞中的经典角色，脸谱以绿色为主色调，象征其勇猛善战的性格。', 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Yingge%20dance%20mask%20Cheng%20Yaojin%20green%20color%20Chinese%20traditional%20opera%20face&image_size=portrait_4_3', '程咬金是《隋唐演义》中的著名将领，以三板斧著称。在英歌舞中，程咬金通常由经验丰富的老队员扮演，是队伍中的核心角色。', 1),
-(1, '秦琼', '秦琼是英歌舞中的正面角色，脸谱以黄色为主色调，象征其忠义勇敢的品质。', 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Yingge%20dance%20mask%20Qin%20Qiong%20yellow%20color%20Chinese%20traditional%20opera%20face&image_size=portrait_4_3', '秦琼是唐朝开国功臣，以勇猛善战、忠义双全著称。在英歌舞中，秦琼通常担任领队角色。', 2),
-(1, '尉迟恭', '尉迟恭是英歌舞中的猛将角色，脸谱以黑色为主色调，象征其刚正不阿的性格。', 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Yingge%20dance%20mask%20Yuchi%20Gong%20black%20color%20Chinese%20traditional%20opera%20face&image_size=portrait_4_3', '尉迟恭是唐朝著名将领，以勇猛无畏著称。在英歌舞中，尉迟恭通常由身材高大、力量充沛的队员扮演。', 3),
-(1, '鲁智深', '鲁智深是英歌舞中的花脸角色，脸谱以蓝色为主色调，象征其豪爽洒脱的性格。', 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Yingge%20dance%20mask%20Lu%20Zhishen%20blue%20color%20Chinese%20traditional%20opera%20face&image_size=portrait_4_3', '鲁智深是《水浒传》中的著名好汉，以力大无穷、疾恶如仇著称。在英歌舞中，鲁智深的动作通常比较粗犷豪放。', 4),
+(1, '程咬金', '程咬金是英歌舞中的经典角色，脸谱以绿色为主色调，象征其勇猛善战的性格。', '/static/masks/mask-1.jpg', '程咬金是《隋唐演义》中的著名将领，以三板斧著称。在英歌舞中，程咬金通常由经验丰富的老队员扮演，是队伍中的核心角色。', 1),
+(1, '秦琼', '秦琼是英歌舞中的正面角色，脸谱以黄色为主色调，象征其忠义勇敢的品质。', '/static/masks/mask-2.jpg', '秦琼是唐朝开国功臣，以勇猛善战、忠义双全著称。在英歌舞中，秦琼通常担任领队角色。', 2),
+(1, '尉迟恭', '尉迟恭是英歌舞中的猛将角色，脸谱以黑色为主色调，象征其刚正不阿的性格。', '/static/masks/mask-3.jpg', '尉迟恭是唐朝著名将领，以勇猛无畏著称。在英歌舞中，尉迟恭通常由身材高大、力量充沛的队员扮演。', 3),
+(1, '鲁智深', '鲁智深是英歌舞中的花脸角色，脸谱以蓝色为主色调，象征其豪爽洒脱的性格。', '/static/masks/mask-4.jpg', '鲁智深是《水浒传》中的著名好汉，以力大无穷、疾恶如仇著称。在英歌舞中，鲁智深的动作通常比较粗犷豪放。', 4),
+(1, '关胜', '关胜是英歌舞中的大将角色，脸谱以红色为主色调，象征其忠义赤诚的品格。', '/static/masks/mask-5.jpg', '关胜是《水浒传》中的好汉，以关羽后代自居，使一口青龙偃月刀。在英歌舞中代表忠义勇武的精神。', 5),
+(1, '林冲', '林冲是英歌舞中的英雄角色，脸谱以白色为主色调，象征其正直刚毅的性格。', '/static/masks/mask-6.jpg', '林冲是《水浒传》中的豹子头，八十万禁军教头。在英歌舞中代表隐忍与爆发的结合。', 6),
+(1, '武松', '武松是英歌舞中的勇士角色，脸谱以金色为主色调，象征其威武不凡的气概。', '/static/masks/mask-7.jpg', '武松是《水浒传》中的行者，以打虎英雄闻名。在英歌舞中代表勇猛无畏的气魄。', 7),
+(1, '李逵', '李逵是英歌舞中的猛将角色，脸谱以黑色为主色调，象征其刚烈直爽的性情。', '/static/masks/mask-8.jpg', '李逵是《水浒传》中的黑旋风，以力大无穷、性如烈火著称。在英歌舞中代表粗犷豪放的力量。', 8),
+(1, '花荣', '花荣是英歌舞中的俊朗角色，脸谱以紫色为主色调，象征其儒雅俊秀的气质。', '/static/masks/mask-9.jpg', '花荣是《水浒传》中的小李广，以神箭手闻名。在英歌舞中代表精准与灵巧的结合。', 9),
 (2, '战袍', '英歌队员穿着的传统战袍，以红色为主色调，象征着喜庆和勇气。', 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Yingge%20dance%20costume%20red%20traditional%20Chinese%20warrior%20robe&image_size=portrait_4_3', '战袍是英歌队员的标志性服装，通常采用绸缎面料，上面绣有精美的图案。战袍的设计既美观又便于表演。', 1),
 (2, '战靴', '英歌队员穿着的传统战靴，以黑色为主色调，坚固耐用。', 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Yingge%20dance%20boots%20black%20traditional%20Chinese%20warrior%20footwear&image_size=portrait_4_3', '战靴是英歌队员必备的装备，采用牛皮制作，鞋底厚实，适合长时间的表演和训练。', 2),
 (2, '腰带', '英歌队员系的传统腰带，以金色为主色调，华丽夺目。', 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Yingge%20dance%20belt%20gold%20traditional%20Chinese%20warrior%20accessory&image_size=portrait_4_3', '腰带不仅起到装饰作用，还能帮助队员固定服装，方便动作表演。', 3),

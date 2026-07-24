@@ -25,6 +25,8 @@ const AdminActions = lazy(() => import("@/pages/admin/AdminActions").then((mod) 
 const AdminEquipment = lazy(() => import("@/pages/admin/AdminEquipment").then((mod) => ({ default: mod.AdminEquipment })));
 const AdminPeople = lazy(() => import("@/pages/admin/AdminPeople").then((mod) => ({ default: mod.AdminPeople })));
 const AdminLogs = lazy(() => import("@/pages/admin/AdminLogs").then((mod) => ({ default: mod.AdminLogs })));
+const AdminNews = lazy(() => import("@/pages/admin/AdminNews").then((mod) => ({ default: mod.AdminNews })));
+const AdminWechat = lazy(() => import("@/pages/admin/AdminWechat").then((mod) => ({ default: mod.AdminWechat })));
 const AdminSchedules = lazy(() => import("@/pages/admin/AdminSchedules").then((mod) => ({ default: mod.AdminSchedules })));
 
 function Loading() {
@@ -79,6 +81,8 @@ export default function App() {
             <Route path="people" element={<AdminPeople />} />
             <Route path="schedules" element={<AdminSchedules />} />
             <Route path="logs" element={<AdminLogs />} />
+            <Route path="news" element={<AdminNews />} />
+            <Route path="wechat" element={<AdminWechat />} />
           </Route>
           <Route element={<UserLayout />}>
             <Route path="/" element={<Home />} />

@@ -1,21 +1,31 @@
 import fetch from "node-fetch";
 import FormData from "form-data";
 
-const IMGBED_API_KEY = "5205f5e3849dce2b9f88fe0700ce0fbd";
-const IMGBED_API_URL = "https://api.superbed.cn/upload";
+// BeeImg 图床配置
+const BEEIMG_API_KEY = "TspNEANZsF2x7CSWBXgfB8AMbNP2J6jqr22rs29d434ea5d3";
+const BEEIMG_API_URL = "https://www.beeimg.cn/api/v2/upload";
+const BEEIMG_STORAGE_ID = 1; // 默认存储ID
 
+/**
+ * 上传单张图片到 BeeImg 图床
+ * @param {Buffer} fileBuffer - 图片文件缓冲区
+ * @param {string} fileName - 文件名
+ * @returns {Promise<{success: boolean, url?: string, error?: string}>}
+ */
 export async function uploadImage(fileBuffer, fileName) {
     try {
         const formData = new FormData();
         formData.append("file", fileBuffer, {
             filename: fileName,
-            contentType: "image/jpeg",
         });
-        formData.append("token", IMGBED_API_KEY);
+        formData.append("storage_id", String(BEEIMG_STORAGE_ID));
+        formData.append("is_remove_exif", "true");
 
-        const response = await fetch(IMGBED_API_URL, {
+        const response = await fetch(BEEIMG_API_URL, {
             method: "POST",
             headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${BEEIMG_API_KEY}`,
                 ...formData.getHeaders(),
             },
             body: formData,
@@ -23,31 +33,31 @@ export async function uploadImage(fileBuffer, fileName) {
 
         const text = await response.text();
 
+        let data;
         try {
-            const data = JSON.parse(text);
-
-            if (data.err === 0 || data.code === 200 || data.success) {
-                return {
-                    success: true,
-                    url: data.url || data.data?.url,
-                };
-            } else {
-                console.error("Image upload failed:", data);
-                return {
-                    success: false,
-                    error:
-                        data.msg || data.detail || data.message || "上传失败",
-                };
-            }
+            data = JSON.parse(text);
         } catch {
-            console.error("Response is not JSON:", text.substring(0, 200));
+            console.error("BeeImg response is not JSON:", text.substring(0, 200));
             return {
                 success: false,
                 error: "响应格式错误",
             };
         }
+
+        if (response.ok && data.status === "success" && data.data?.public_url) {
+            return {
+                success: true,
+                url: data.data.public_url,
+            };
+        }
+
+        console.error("BeeImg upload failed:", data);
+        return {
+            success: false,
+            error: data.message || "上传失败",
+        };
     } catch (error) {
-        console.error("Image upload error:", error);
+        console.error("BeeImg upload error:", error);
         return {
             success: false,
             error: error.message || "上传失败",
@@ -55,6 +65,11 @@ export async function uploadImage(fileBuffer, fileName) {
     }
 }
 
+/**
+ * 批量上传图片
+ * @param {Array<{buffer: Buffer, fileName: string}>} fileBuffers
+ * @returns {Promise<Array<{success: boolean, url?: string, error?: string}>>}
+ */
 export async function uploadImages(fileBuffers) {
     const results = [];
 

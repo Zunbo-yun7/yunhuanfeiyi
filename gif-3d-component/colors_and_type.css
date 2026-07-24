@@ -1,0 +1,21 @@
+/* GIF 3D Component — Brand CSS */
+:root {
+  --gif3d-background: #0a0a0f;
+  --gif3d-foreground: #f0e6d3;
+  --gif3d-card: #1a1a2e;
+  --gif3d-card-foreground: #f0e6d3;
+  --gif3d-popover: #1a1a2e;
+  --gif3d-popover-foreground: #f0e6d3;
+  --gif3d-primary: #c41e3a;
+  --gif3d-primary-foreground: #ffffff;
+  --gif3d-muted: #2a2a3e;
+  --gif3d-muted-foreground: #a09888;
+  --gif3d-border: #3a3a4e;
+  --gif3d-input: #2a2a3e;
+  --gif3d-ring: #c41e3a;
+  --gif3d-radius-sm: 8px;
+  --gif3d-radius-md: 12px;
+  --gif3d-radius-lg: 20px;
+  --gif3d-gold: #d4a853;
+  --gif3d-gold-light: #f0d080;
+}

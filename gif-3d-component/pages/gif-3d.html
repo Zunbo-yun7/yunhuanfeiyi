@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIF转3D旋转组件</title>
+    <style id="theme-vars">
+/* GIF 3D Component — Brand CSS */
+:root {
+  --gif3d-background: #0a0a0f;
+  --gif3d-foreground: #f0e6d3;
+  --gif3d-card: #1a1a2e;
+  --gif3d-card-foreground: #f0e6d3;
+  --gif3d-popover: #1a1a2e;
+  --gif3d-popover-foreground: #f0e6d3;
+  --gif3d-primary: #c41e3a;
+  --gif3d-primary-foreground: #ffffff;
+  --gif3d-muted: #2a2a3e;
+  --gif3d-muted-foreground: #a09888;
+  --gif3d-border: #3a3a4e;
+  --gif3d-input: #2a2a3e;
+  --gif3d-ring: #c41e3a;
+  --gif3d-radius-sm: 8px;
+  --gif3d-radius-md: 12px;
+  --gif3d-radius-lg: 20px;
+  --gif3d-gold: #d4a853;
+  --gif3d-gold-light: #f0d080;
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--gif3d-background);
+    --color-foreground: var(--gif3d-foreground);
+    --color-card: var(--gif3d-card);
+    --color-card-foreground: var(--gif3d-card-foreground);
+    --color-popover: var(--gif3d-popover);
+    --color-popover-foreground: var(--gif3d-popover-foreground);
+    --color-primary: var(--gif3d-primary);
+    --color-primary-foreground: var(--gif3d-primary-foreground);
+    --color-muted: var(--gif3d-muted);
+    --color-muted-foreground: var(--gif3d-muted-foreground);
+    --color-border: var(--gif3d-border);
+    --color-input: var(--gif3d-input);
+    --color-ring: var(--gif3d-ring);
+    --radius-sm: var(--gif3d-radius-sm);
+    --radius-md: var(--gif3d-radius-md);
+    --radius-lg: var(--gif3d-radius-lg);
+  }
+  @layer base {
+    body { background: var(--gif3d-background); color: var(--gif3d-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--gif3d-background); }
+      .text-background { color: var(--gif3d-background); }
+      .border-background { border-color: var(--gif3d-background); }
+      .ring-background { --tw-ring-color: var(--gif3d-background); }
+      .bg-foreground { background-color: var(--gif3d-foreground); }
+      .text-foreground { color: var(--gif3d-foreground); }
+      .border-foreground { border-color: var(--gif3d-foreground); }
+      .ring-foreground { --tw-ring-color: var(--gif3d-foreground); }
+      .bg-card { background-color: var(--gif3d-card); }
+      .text-card { color: var(--gif3d-card); }
+      .border-card { border-color: var(--gif3d-card); }
+      .ring-card { --tw-ring-color: var(--gif3d-card); }
+      .bg-card-foreground { background-color: var(--gif3d-card-foreground); }
+      .text-card-foreground { color: var(--gif3d-card-foreground); }
+      .border-card-foreground { border-color: var(--gif3d-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--gif3d-card-foreground); }
+      .bg-popover { background-color: var(--gif3d-popover); }
+      .text-popover { color: var(--gif3d-popover); }
+      .border-popover { border-color: var(--gif3d-popover); }
+      .ring-popover { --tw-ring-color: var(--gif3d-popover); }
+      .bg-popover-foreground { background-color: var(--gif3d-popover-foreground); }
+      .text-popover-foreground { color: var(--gif3d-popover-foreground); }
+      .border-popover-foreground { border-color: var(--gif3d-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--gif3d-popover-foreground); }
+      .bg-primary { background-color: var(--gif3d-primary); }
+      .text-primary { color: var(--gif3d-primary); }
+      .border-primary { border-color: var(--gif3d-primary); }
+      .ring-primary { --tw-ring-color: var(--gif3d-primary); }
+      .bg-primary-foreground { background-color: var(--gif3d-primary-foreground); }
+      .text-primary-foreground { color: var(--gif3d-primary-foreground); }
+      .border-primary-foreground { border-color: var(--gif3d-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--gif3d-primary-foreground); }
+      .bg-muted { background-color: var(--gif3d-muted); }
+      .text-muted { color: var(--gif3d-muted); }
+      .border-muted { border-color: var(--gif3d-muted); }
+      .ring-muted { --tw-ring-color: var(--gif3d-muted); }
+      .bg-muted-foreground { background-color: var(--gif3d-muted-foreground); }
+      .text-muted-foreground { color: var(--gif3d-muted-foreground); }
+      .border-muted-foreground { border-color: var(--gif3d-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--gif3d-muted-foreground); }
+      .bg-border { background-color: var(--gif3d-border); }
+      .text-border { color: var(--gif3d-border); }
+      .border-border { border-color: var(--gif3d-border); }
+      .ring-border { --tw-ring-color: var(--gif3d-border); }
+      .bg-input { background-color: var(--gif3d-input); }
+      .text-input { color: var(--gif3d-input); }
+      .border-input { border-color: var(--gif3d-input); }
+      .ring-input { --tw-ring-color: var(--gif3d-input); }
+      .bg-ring { background-color: var(--gif3d-ring); }
+      .text-ring { color: var(--gif3d-ring); }
+      .border-ring { border-color: var(--gif3d-ring); }
+      .ring-ring { --tw-ring-color: var(--gif3d-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main class="relative min-h-screen overflow-hidden">
+      <!-- Floating Particles Background -->
+      <div class="gif3d-particles" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+
+      <!-- Hero Section -->
+      <section class="relative z-10 pt-12 sm:pt-16 pb-4 sm:pb-8 px-4 text-center">
+        <h1 class="gif3d-hero-title" style="text-wrap: balance; word-break: keep-all; overflow-wrap: break-word;">英歌雷鼓 · 3D互动展示</h1>
+        <p class="mt-3 sm:mt-4 text-sm sm:text-base max-w-xl mx-auto leading-relaxed" style="color: var(--gif3d-muted-foreground);">
+          将传统英歌雷鼓动画转化为可交互的3D旋转组件，体验传统文化与现代技术的融合
+        </p>
+      </section>
+
+      <!-- 3D Interactive Component -->
+      <section class="relative z-10 flex flex-col items-center px-4 py-6 sm:py-8">
+        <div class="gif3d-perspective-wrap" id="perspective-wrap">
+          <div class="gif3d-halo" aria-hidden="true"></div>
+          <div class="gif3d-cloud gif3d-cloud-1" aria-hidden="true"></div>
+          <div class="gif3d-cloud gif3d-cloud-2" aria-hidden="true"></div>
+          <div class="gif3d-cloud gif3d-cloud-3" aria-hidden="true"></div>
+          <div class="gif3d-sparkle gif3d-sparkle-1" aria-hidden="true"></div>
+          <div class="gif3d-sparkle gif3d-sparkle-2" aria-hidden="true"></div>
+          <div class="gif3d-sparkle gif3d-sparkle-3" aria-hidden="true"></div>
+          <div class="gif3d-card-3d" id="card3d">
+            <div class="gif3d-card-inner">
+              <div class="gif3d-card-border">
+                <img src="../assets/opera-drummer.gif" alt="英歌雷鼓动画" class="gif3d-card-img" draggable="false" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="mt-5 sm:mt-6 text-xs sm:text-sm tracking-wider text-center" style="color: var(--gif3d-gold);">
+          拖拽卡片进行3D旋转 · Drag to rotate
+        </p>
+      </section>
+
+      <!-- Control Panel -->
+      <section class="relative z-10 flex flex-col items-center px-4 py-4 sm:py-6">
+        <div class="gif3d-control-panel">
+          <button id="toggle-rotate" class="gif3d-ctrl-btn" aria-label="切换自动旋转">
+            <i data-lucide="pause" class="w-4 h-4 gif3d-icon-pause"></i>
+            <i data-lucide="play" class="w-4 h-4 gif3d-icon-play hidden"></i>
+            <span class="gif3d-btn-text-active">暂停旋转</span>
+            <span class="gif3d-btn-text-inactive hidden">开始旋转</span>
+          </button>
+          <button id="reset-rotate" class="gif3d-ctrl-btn" aria-label="重置旋转角度">
+            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+            <span>重置视角</span>
+          </button>
+          <div class="gif3d-speed-control">
+            <label for="speed-slider" class="text-xs whitespace-nowrap" style="color: var(--gif3d-muted-foreground);">旋转速度</label>
+            <input type="range" id="speed-slider" class="gif3d-slider" min="0.05" max="1.5" step="0.05" value="0.3" />
+            <span id="speed-value" class="text-xs tabular-nums w-8 text-right" style="color: var(--gif3d-gold);">0.3</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Info Section -->
+      <section class="relative z-10 max-w-3xl mx-auto px-4 py-8 sm:py-12 pb-16 sm:pb-20">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+          <div class="gif3d-glass-card">
+            <h3 class="gif3d-info-title" style="color: var(--gif3d-gold);">英歌雷鼓</h3>
+            <p class="mt-2 text-sm leading-relaxed line-clamp-6" style="color: var(--gif3d-muted-foreground);">
+              英歌雷鼓源自中国潮汕地区的英歌舞，是国家级非物质文化遗产。表演者身背战鼓，面绘传统戏曲脸谱，以刚劲有力的舞蹈动作展现古代将士的英勇威武。雷鼓象征着驱邪镇煞的力量，是潮汕民间信仰与文化认同的重要载体。
+            </p>
+          </div>
+          <div class="gif3d-glass-card">
+            <h3 class="gif3d-info-title" style="color: var(--gif3d-primary);">技术实现</h3>
+            <ul class="mt-3 space-y-2.5">
+              <li class="gif3d-tech-item">
+                <i data-lucide="box" class="w-4 h-4 shrink-0" style="color: var(--gif3d-gold);"></i>
+                <span class="text-sm" style="color: var(--gif3d-muted-foreground);">CSS 3D Transforms</span>
+              </li>
+              <li class="gif3d-tech-item">
+                <i data-lucide="eye" class="w-4 h-4 shrink-0" style="color: var(--gif3d-gold);"></i>
+                <span class="text-sm" style="color: var(--gif3d-muted-foreground);">Perspective Projection</span>
+              </li>
+              <li class="gif3d-tech-item">
+                <i data-lucide="hand" class="w-4 h-4 shrink-0" style="color: var(--gif3d-gold);"></i>
+                <span class="text-sm" style="color: var(--gif3d-muted-foreground);">Gesture Interaction</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <style>
+      /* ===== Particles ===== */
+      .gif3d-particles {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        pointer-events: none;
+        z-index: 1;
+        overflow: hidden;
+      }
+      .gif3d-particles span {
+        position: absolute;
+        display: block;
+        border-radius: 50%;
+        background: var(--gif3d-gold);
+        opacity: 0;
+        animation: gif3d-float-up linear infinite;
+      }
+      .gif3d-particles span:nth-child(1)  { left: 5%;  width: 3px; height: 3px; animation-duration: 14s; animation-delay: 0s; }
+      .gif3d-particles span:nth-child(2)  { left: 12%; width: 2px; height: 2px; animation-duration: 18s; animation-delay: 2s; }
+      .gif3d-particles span:nth-child(3)  { left: 18%; width: 4px; height: 4px; animation-duration: 11s; animation-delay: 4s; }
+      .gif3d-particles span:nth-child(4)  { left: 25%; width: 2px; height: 2px; animation-duration: 16s; animation-delay: 1s; }
+      .gif3d-particles span:nth-child(5)  { left: 32%; width: 3px; height: 3px; animation-duration: 13s; animation-delay: 6s; }
+      .gif3d-particles span:nth-child(6)  { left: 38%; width: 2px; height: 2px; animation-duration: 20s; animation-delay: 3s; }
+      .gif3d-particles span:nth-child(7)  { left: 45%; width: 3px; height: 3px; animation-duration: 12s; animation-delay: 7s; }
+      .gif3d-particles span:nth-child(8)  { left: 52%; width: 4px; height: 4px; animation-duration: 15s; animation-delay: 0.5s; }
+      .gif3d-particles span:nth-child(9)  { left: 58%; width: 2px; height: 2px; animation-duration: 17s; animation-delay: 5s; }
+      .gif3d-particles span:nth-child(10) { left: 65%; width: 3px; height: 3px; animation-duration: 10s; animation-delay: 8s; }
+      .gif3d-particles span:nth-child(11) { left: 72%; width: 2px; height: 2px; animation-duration: 19s; animation-delay: 1.5s; }
+      .gif3d-particles span:nth-child(12) { left: 78%; width: 4px; height: 4px; animation-duration: 13s; animation-delay: 3.5s; }
+      .gif3d-particles span:nth-child(13) { left: 85%; width: 3px; height: 3px; animation-duration: 16s; animation-delay: 9s; }
+      .gif3d-particles span:nth-child(14) { left: 90%; width: 2px; height: 2px; animation-duration: 14s; animation-delay: 2.5s; }
+      .gif3d-particles span:nth-child(15) { left: 95%; width: 3px; height: 3px; animation-duration: 11s; animation-delay: 6.5s; }
+      .gif3d-particles span:nth-child(16) { left: 8%;  width: 2px; height: 2px; animation-duration: 21s; animation-delay: 10s; }
+      .gif3d-particles span:nth-child(17) { left: 22%; width: 3px; height: 3px; animation-duration: 15s; animation-delay: 4.5s; }
+      .gif3d-particles span:nth-child(18) { left: 35%; width: 2px; height: 2px; animation-duration: 18s; animation-delay: 7.5s; }
+      .gif3d-particles span:nth-child(19) { left: 48%; width: 4px; height: 4px; animation-duration: 12s; animation-delay: 11s; }
+      .gif3d-particles span:nth-child(20) { left: 60%; width: 2px; height: 2px; animation-duration: 16s; animation-delay: 0.8s; }
+      .gif3d-particles span:nth-child(21) { left: 73%; width: 3px; height: 3px; animation-duration: 14s; animation-delay: 5.5s; }
+      .gif3d-particles span:nth-child(22) { left: 88%; width: 2px; height: 2px; animation-duration: 19s; animation-delay: 8.5s; }
+      .gif3d-particles span:nth-child(23) { left: 15%; width: 3px; height: 3px; animation-duration: 13s; animation-delay: 12s; }
+      .gif3d-particles span:nth-child(24) { left: 42%; width: 2px; height: 2px; animation-duration: 17s; animation-delay: 3.8s; }
+      .gif3d-particles span:nth-child(25) { left: 68%; width: 4px; height: 4px; animation-duration: 11s; animation-delay: 6.8s; }
+
+      @keyframes gif3d-float-up {
+        0%   { transform: translateY(100vh) translateX(0) scale(0); opacity: 0; }
+        10%  { opacity: 0.5; transform: translateY(80vh) translateX(5px) scale(0.8); }
+        50%  { opacity: 0.7; }
+        90%  { opacity: 0.4; }
+        100% { transform: translateY(-10vh) translateX(-10px) scale(1); opacity: 0; }
+      }
+
+      /* ===== Hero Title ===== */
+      .gif3d-hero-title {
+        font-size: clamp(28px, 5vw, 56px);
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--gif3d-gold-light) 0%, var(--gif3d-gold) 40%, var(--gif3d-primary) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: 0.06em;
+        line-height: 1.3;
+      }
+
+      /* ===== Perspective Container ===== */
+      .gif3d-perspective-wrap {
+        perspective: 1000px;
+        perspective-origin: 50% 50%;
+        width: 380px;
+        height: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        cursor: grab;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      /* ===== 3D Card ===== */
+      .gif3d-card-3d {
+        transform-style: preserve-3d;
+        width: 320px;
+        position: relative;
+        z-index: 2;
+        will-change: transform;
+      }
+      .gif3d-card-inner {
+        background: linear-gradient(160deg, var(--gif3d-card) 0%, var(--gif3d-background) 100%);
+        border-radius: var(--gif3d-radius-lg);
+        padding: 3px;
+        box-shadow:
+          0 0 30px rgba(196, 30, 58, 0.12),
+          0 0 60px rgba(212, 168, 83, 0.08),
+          inset 0 1px 0 rgba(212, 168, 83, 0.15);
+      }
+      .gif3d-card-border {
+        border: 2px solid var(--gif3d-gold);
+        border-radius: calc(var(--gif3d-radius-lg) - 2px);
+        overflow: hidden;
+        position: relative;
+      }
+      .gif3d-card-border::before {
+        content: '';
+        position: absolute;
+        inset: 3px;
+        border: 1px solid rgba(196, 30, 58, 0.5);
+        border-radius: inherit;
+        pointer-events: none;
+        z-index: 1;
+      }
+      .gif3d-card-border::after {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 40%;
+        background: linear-gradient(180deg, rgba(212, 168, 83, 0.06) 0%, transparent 100%);
+        pointer-events: none;
+        z-index: 1;
+      }
+      .gif3d-card-img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: calc(var(--gif3d-radius-lg) - 5px);
+      }
+
+      /* ===== Halo ===== */
+      .gif3d-halo {
+        position: absolute;
+        width: 380px;
+        height: 380px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(212, 168, 83, 0.12) 0%,
+          rgba(196, 30, 58, 0.06) 40%,
+          transparent 70%
+        );
+        animation: gif3d-pulse-halo 3.5s ease-in-out infinite;
+        z-index: 0;
+        pointer-events: none;
+      }
+      @keyframes gif3d-pulse-halo {
+        0%, 100% { transform: scale(1); opacity: 0.5; }
+        50%      { transform: scale(1.18); opacity: 1; }
+      }
+
+      /* ===== Clouds ===== */
+      .gif3d-cloud {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(212, 168, 83, 0.06);
+        filter: blur(10px);
+        z-index: 1;
+        pointer-events: none;
+      }
+      .gif3d-cloud-1 {
+        width: 70px; height: 35px;
+        top: 8%; right: -25px;
+        animation: gif3d-drift 9s ease-in-out infinite;
+      }
+      .gif3d-cloud-2 {
+        width: 90px; height: 40px;
+        bottom: 12%; left: -40px;
+        animation: gif3d-drift 11s ease-in-out infinite reverse;
+      }
+      .gif3d-cloud-3 {
+        width: 55px; height: 28px;
+        top: 55%; right: -45px;
+        animation: gif3d-drift 13s ease-in-out infinite 2s;
+      }
+      @keyframes gif3d-drift {
+        0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.4; }
+        50%      { transform: translate(12px, -8px) scale(1.08); opacity: 0.7; }
+      }
+
+      /* ===== Sparkles ===== */
+      .gif3d-sparkle {
+        position: absolute;
+        width: 8px; height: 8px;
+        z-index: 3;
+        pointer-events: none;
+      }
+      .gif3d-sparkle::before,
+      .gif3d-sparkle::after {
+        content: '';
+        position: absolute;
+        background: var(--gif3d-gold);
+        border-radius: 1px;
+      }
+      .gif3d-sparkle::before {
+        width: 2px; height: 100%;
+        left: 50%; transform: translateX(-50%);
+      }
+      .gif3d-sparkle::after {
+        width: 100%; height: 2px;
+        top: 50%; transform: translateY(-50%);
+      }
+      .gif3d-sparkle-1 { top: 4%; left: 8%;  animation: gif3d-twinkle 2.2s ease-in-out infinite; }
+      .gif3d-sparkle-2 { bottom: 8%; right: 12%; animation: gif3d-twinkle 2.8s ease-in-out infinite 0.9s; }
+      .gif3d-sparkle-3 { top: 28%; right: 3%;  animation: gif3d-twinkle 3.2s ease-in-out infinite 1.6s; }
+      @keyframes gif3d-twinkle {
+        0%, 100% { opacity: 0; transform: scale(0.4) rotate(0deg); }
+        50%      { opacity: 1; transform: scale(1.3) rotate(45deg); }
+      }
+
+      /* ===== Control Panel ===== */
+      .gif3d-control-panel {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 20px;
+        background: rgba(26, 26, 46, 0.6);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--gif3d-border);
+        border-radius: var(--gif3d-radius-md);
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .gif3d-ctrl-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border-radius: var(--gif3d-radius-sm);
+        border: 1px solid var(--gif3d-border);
+        background: transparent;
+        color: var(--gif3d-foreground);
+        font-size: 14px;
+        cursor: pointer;
+        transition: border-color 0.2s, background 0.2s;
+        white-space: nowrap;
+        line-height: 1.4;
+      }
+      .gif3d-ctrl-btn:hover {
+        border-color: var(--gif3d-gold);
+        background: rgba(212, 168, 83, 0.08);
+      }
+      .gif3d-ctrl-btn:active {
+        background: rgba(212, 168, 83, 0.15);
+      }
+      .gif3d-speed-control {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .gif3d-slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 90px;
+        height: 4px;
+        border-radius: 2px;
+        background: var(--gif3d-border);
+        outline: none;
+        cursor: pointer;
+      }
+      .gif3d-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 16px; height: 16px;
+        border-radius: 50%;
+        background: var(--gif3d-gold);
+        cursor: pointer;
+        border: 2px solid var(--gif3d-background);
+        box-shadow: 0 0 6px rgba(212, 168, 83, 0.4);
+      }
+      .gif3d-slider::-moz-range-thumb {
+        width: 16px; height: 16px;
+        border-radius: 50%;
+        background: var(--gif3d-gold);
+        cursor: pointer;
+        border: 2px solid var(--gif3d-background);
+        box-shadow: 0 0 6px rgba(212, 168, 83, 0.4);
+      }
+
+      /* ===== Glassmorphism Cards ===== */
+      .gif3d-glass-card {
+        background: rgba(26, 26, 46, 0.45);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(212, 168, 83, 0.12);
+        border-radius: var(--gif3d-radius-lg);
+        padding: 24px;
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+      .gif3d-glass-card:hover {
+        border-color: rgba(212, 168, 83, 0.3);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+      }
+      .gif3d-info-title {
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+      }
+      .gif3d-tech-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      /* ===== Responsive ===== */
+      @media (max-width: 639px) {
+        .gif3d-perspective-wrap {
+          width: 300px;
+          height: 420px;
+        }
+        .gif3d-card-3d {
+          width: 260px;
+        }
+        .gif3d-halo {
+          width: 290px;
+          height: 290px;
+        }
+        .gif3d-control-panel {
+          gap: 8px;
+          padding: 12px 14px;
+        }
+        .gif3d-ctrl-btn {
+          padding: 7px 12px;
+          font-size: 13px;
+        }
+        .gif3d-slider {
+          width: 70px;
+        }
+        .gif3d-glass-card {
+          padding: 18px;
+        }
+      }
+      @media (min-width: 640px) and (max-width: 767px) {
+        .gif3d-perspective-wrap {
+          width: 340px;
+          height: 460px;
+        }
+        .gif3d-card-3d {
+          width: 290px;
+        }
+      }
+
+      /* ===== Reduced Motion ===== */
+      @media (prefers-reduced-motion: reduce) {
+        .gif3d-particles span,
+        .gif3d-halo,
+        .gif3d-cloud,
+        .gif3d-sparkle {
+          animation: none !important;
+          opacity: 0.3;
+        }
+      }
+    </style>
+
+    <script>
+    (function() {
+      var card = document.getElementById('card3d');
+      var wrap = document.getElementById('perspective-wrap');
+      var toggleBtn = document.getElementById('toggle-rotate');
+      var resetBtn = document.getElementById('reset-rotate');
+      var speedSlider = document.getElementById('speed-slider');
+      var speedValue = document.getElementById('speed-value');
+
+      if (!card || !wrap) return;
+
+      var isDragging = false;
+      var currentRotateX = 0;
+      var currentRotateY = 0;
+      var autoRotate = true;
+      var autoRotateSpeed = 0.3;
+      var animFrameId = null;
+      var lastPX = 0, lastPY = 0, lastPTime = 0;
+      var velX = 0, velY = 0;
+      var momentumActive = false;
+      var momentumCount = 0;
+
+      function updateTransform() {
+        card.style.transform = 'rotateX(' + currentRotateX + 'deg) rotateY(' + currentRotateY + 'deg)';
+      }
+
+      function ptr(e) {
+        if (e.touches && e.touches.length > 0) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        return { x: e.clientX, y: e.clientY };
+      }
+
+      function onDown(e) {
+        e.preventDefault();
+        isDragging = true;
+        momentumActive = false;
+        if (animFrameId) { cancelAnimationFrame(animFrameId); animFrameId = null; }
+        var p = ptr(e);
+        lastPX = p.x; lastPY = p.y;
+        lastPTime = performance.now();
+        velX = 0; velY = 0;
+        wrap.style.cursor = 'grabbing';
+      }
+
+      function onMove(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        var p = ptr(e);
+        var now = performance.now();
+        var dt = now - lastPTime;
+        if (dt > 0) {
+          velX = (p.x - lastPX) / dt * 16;
+          velY = (p.y - lastPY) / dt * 16;
+        }
+        currentRotateY += (p.x - lastPX) * 0.5;
+        currentRotateX = Math.max(-45, Math.min(45, currentRotateX - (p.y - lastPY) * 0.5));
+        lastPX = p.x; lastPY = p.y; lastPTime = now;
+        updateTransform();
+      }
+
+      function onUp() {
+        if (!isDragging) return;
+        isDragging = false;
+        wrap.style.cursor = 'grab';
+        if (Math.abs(velX) > 0.1 || Math.abs(velY) > 0.1) {
+          momentumActive = true;
+          momentumCount = 0;
+          requestAnimationFrame(momentumStep);
+        } else {
+          startAutoRotate();
+        }
+      }
+
+      function momentumStep() {
+        if (isDragging) return;
+        currentRotateY += velX * 0.4;
+        currentRotateX = Math.max(-45, Math.min(45, currentRotateX - velY * 0.4));
+        velX *= 0.92; velY *= 0.92;
+        momentumCount++;
+        updateTransform();
+        if (momentumCount > 40 || (Math.abs(velX) < 0.05 && Math.abs(velY) < 0.05)) {
+          momentumActive = false;
+          startAutoRotate();
+          return;
+        }
+        requestAnimationFrame(momentumStep);
+      }
+
+      function autoStep() {
+        if (!isDragging && !momentumActive && autoRotate) {
+          currentRotateY += autoRotateSpeed;
+          updateTransform();
+        }
+        animFrameId = requestAnimationFrame(autoStep);
+      }
+
+      function startAutoRotate() {
+        if (animFrameId) { cancelAnimationFrame(animFrameId); animFrameId = null; }
+        animFrameId = requestAnimationFrame(autoStep);
+      }
+
+      wrap.addEventListener('mousedown', onDown);
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp);
+      wrap.addEventListener('touchstart', onDown, { passive: false });
+      document.addEventListener('touchmove', onMove, { passive: false });
+      document.addEventListener('touchend', onUp);
+      startAutoRotate();
+
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', function() {
+          autoRotate = !autoRotate;
+          var iconPause = this.querySelector('.gif3d-icon-pause');
+          var iconPlay = this.querySelector('.gif3d-icon-play');
+          var txtActive = this.querySelector('.gif3d-btn-text-active');
+          var txtInactive = this.querySelector('.gif3d-btn-text-inactive');
+          if (iconPause) iconPause.classList.toggle('hidden', !autoRotate);
+          if (iconPlay) iconPlay.classList.toggle('hidden', autoRotate);
+          if (txtActive) txtActive.classList.toggle('hidden', !autoRotate);
+          if (txtInactive) txtInactive.classList.toggle('hidden', autoRotate);
+        });
+      }
+
+      if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+          currentRotateX = 0; currentRotateY = 0;
+          velX = 0; velY = 0;
+          momentumActive = false;
+          updateTransform();
+        });
+      }
+
+      if (speedSlider) {
+        speedSlider.addEventListener('input', function() {
+          autoRotateSpeed = parseFloat(this.value);
+          if (speedValue) speedValue.textContent = autoRotateSpeed.toFixed(1);
+        });
+      }
+    })();
+    </script>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>

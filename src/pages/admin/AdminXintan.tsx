@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Save, RotateCcw, Plus, Edit2, Trash2, X } from 'lucide-react';
 import api from '@/lib/api';
 import ImageUploader from '@/components/ImageUploader';
+import ImageUploaderMultiple from '@/components/ImageUploaderMultiple';
 import { SortableList, SortToggle } from '@/components/SortableList';
 
 interface AchievementItem {
@@ -403,12 +404,10 @@ export function AdminXintan() {
               />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">图片URL（多个用逗号分隔）</label>
-              <textarea
+              <ImageUploaderMultiple
+                label="图片"
                 value={formData.teamImagesStr}
-                onChange={(e) => setFormData({ ...formData, teamImagesStr: e.target.value })}
-                rows={2}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yingge-gold focus:border-transparent outline-none resize-none"
+                onChange={(urls) => setFormData({ ...formData, teamImagesStr: urls })}
               />
             </div>
           </div>
@@ -514,12 +513,10 @@ export function AdminXintan() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">训练图片URL（多个用逗号分隔）</label>
-              <textarea
+              <ImageUploaderMultiple
+                label="训练图片"
                 value={formData.trainingImagesStr}
-                onChange={(e) => setFormData({ ...formData, trainingImagesStr: e.target.value })}
-                rows={2}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yingge-gold focus:border-transparent outline-none resize-none"
+                onChange={(urls) => setFormData({ ...formData, trainingImagesStr: urls })}
               />
             </div>
           </div>

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Save, RotateCcw, Plus, Edit2, Trash2, X } from 'lucide-react';
 import api from '@/lib/api';
 import ImageUploader from '@/components/ImageUploader';
+import VideoUploader from '@/components/VideoUploader';
 import { SortableList, SortToggle } from '@/components/SortableList';
 
 interface ActionItem {
@@ -379,12 +380,10 @@ export function AdminActions() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">视频URL</label>
-                <input
-                  type="text"
+                <VideoUploader
+                  label="视频"
                   value={editingAction.videoUrl}
-                  onChange={(e) => setEditingAction({ ...editingAction, videoUrl: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yingge-gold focus:border-transparent outline-none"
+                  onChange={(url) => setEditingAction({ ...editingAction, videoUrl: url })}
                 />
               </div>
               <div>

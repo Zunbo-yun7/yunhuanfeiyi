@@ -1,0 +1,42 @@
+{
+  "name": "gif-3d-component",
+  "version": 1,
+  "description": "GIF转3D交互式旋转组件",
+  "data": [
+    {
+      "id": "page-gif-3d",
+      "title": "3D旋转组件",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1752671000000,
+      "devMetadata": {
+        "htmlSrc": "pages/gif-3d.html",
+        "interactions": []
+      },
+      "canvasData": {
+        "x": 0,
+        "y": 0,
+        "group": 0
+      }
+    },
+    {
+      "id": "image-001",
+      "title": "雷公鼓手GIF",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1752671000000,
+      "devMetadata": {
+        "imageSrc": "assets/opera-drummer.gif"
+      },
+      "canvasData": {
+        "x": 0,
+        "y": 0
+      }
+    }
+  ],
+  "config": {
+    "autoLayout": true,
+    "deviceType": "desktop",
+    "projectName": "GIF转3D旋转组件"
+  }
+}

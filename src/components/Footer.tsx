@@ -91,6 +91,38 @@ export function Footer() {
           </div>
         </div>
       </div>
+
+      <div className="border-t border-white/5 bg-yingge-dark/50">
+        <div className="container mx-auto px-4 py-3">
+          <div style={{ textAlign: 'center', fontSize: '13px', lineHeight: '1.8', color: '#9ca3af' }}>
+            本站图像服务由
+            <a
+              href="https://www.beeimg.cn/"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="蜜蜂图床"
+              style={{ textDecoration: 'none', verticalAlign: 'middle', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+              onMouseOver={(e) => {
+                const span = (e.currentTarget as HTMLElement).querySelector('span');
+                if (span) span.style.color = '#0ea5e9';
+              }}
+              onMouseOut={(e) => {
+                const span = (e.currentTarget as HTMLElement).querySelector('span');
+                if (span) span.style.color = '#38bdf8';
+              }}
+            >
+              <img
+                src="https://www.beeimg.cn/favicon.png"
+                alt="蜜蜂图床"
+                style={{ height: '16px', verticalAlign: 'middle', border: 'none' }}
+                loading="lazy"
+              />
+              <span style={{ color: '#38bdf8', fontWeight: '700' }}>蜜蜂图床</span>
+            </a>
+            提供
+          </div>
+        </div>
+      </div>
     </footer>
   );
 }

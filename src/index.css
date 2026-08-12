@@ -535,3 +535,76 @@ a, button, [role="button"] {
   width: 200%;
   height: 200%;
 }
+
+/* ========== React Bits: Shiny Text ========== */
+.shiny-text {
+  display: inline-block;
+  font-weight: 700;
+  background: linear-gradient(
+    90deg,
+    #B22222 0%,
+    #C8A060 25%,
+    #fff 50%,
+    #C8A060 75%,
+    #B22222 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shiny-text-sweep var(--shiny-duration, 3s) linear infinite;
+}
+
+.shiny-text-disabled {
+  animation: none;
+  background: none;
+  -webkit-text-fill-color: initial;
+  color: #B22222;
+}
+
+@keyframes shiny-text-sweep {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* ========== React Bits: Dot Field Background ========== */
+.dot-field-bg {
+  background-image: radial-gradient(circle, rgba(200, 160, 96, 0.15) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ========== React Bits: Shape Grid Background ========== */
+.shape-grid-bg {
+  background-image:
+    linear-gradient(rgba(178, 34, 34, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(178, 34, 34, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ========== 搜索高亮动画 ========== */
+.search-highlight {
+  animation: searchHighlight 2s ease-out;
+  border-radius: 12px;
+}
+
+@keyframes searchHighlight {
+  0% {
+    background-color: rgba(200, 160, 96, 0);
+    box-shadow: 0 0 0 0 rgba(200, 160, 96, 0);
+    transform: scale(1);
+  }
+  20% {
+    background-color: rgba(200, 160, 96, 0.25);
+    box-shadow: 0 0 20px 4px rgba(200, 160, 96, 0.4);
+  }
+  50% {
+    background-color: rgba(200, 160, 96, 0.12);
+    box-shadow: 0 0 10px 2px rgba(200, 160, 96, 0.3);
+  }
+  100% {
+    background-color: rgba(200, 160, 96, 0);
+    box-shadow: 0 0 0 0 rgba(200, 160, 96, 0);
+    transform: scale(1);
+  }
+}

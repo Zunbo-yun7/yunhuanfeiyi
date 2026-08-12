@@ -653,6 +653,7 @@ export function AdminAbout() {
                   label="图片"
                   value={editingFeature.image}
                   onChange={(url) => setEditingFeature({ ...editingFeature, image: url })}
+                  category="about-features"
                 />
               </div>
               <div>

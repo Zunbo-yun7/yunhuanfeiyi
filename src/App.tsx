@@ -14,6 +14,9 @@ const AIGuide = lazy(() => import("@/pages/AIGuide").then((mod) => ({ default: m
 const PracticeLogs = lazy(() => import("@/pages/PracticeLogs").then((mod) => ({ default: mod.PracticeLogs })));
 const MaskDIY = lazy(() => import("@/pages/MaskDIY").then((mod) => ({ default: mod.MaskDIY })));
 const PerformanceSchedule = lazy(() => import("@/pages/PerformanceSchedule").then((mod) => ({ default: mod.PerformanceSchedule })));
+const CreativePage = lazy(() => import("@/pages/CreativePage").then((mod) => ({ default: mod.CreativePage })));
+const CreativeProductDetail = lazy(() => import("@/pages/CreativeProductDetail").then((mod) => ({ default: mod.CreativeProductDetail })));
+const Notices = lazy(() => import("@/pages/Notices").then((mod) => ({ default: mod.Notices })));
 
 const AdminLogin = lazy(() => import("@/pages/admin/AdminLogin").then((mod) => ({ default: mod.AdminLogin })));
 const AdminLayout = lazy(() => import("@/pages/admin/AdminLayout").then((mod) => ({ default: mod.AdminLayout })));
@@ -28,6 +31,7 @@ const AdminLogs = lazy(() => import("@/pages/admin/AdminLogs").then((mod) => ({ 
 const AdminNews = lazy(() => import("@/pages/admin/AdminNews").then((mod) => ({ default: mod.AdminNews })));
 const AdminWechat = lazy(() => import("@/pages/admin/AdminWechat").then((mod) => ({ default: mod.AdminWechat })));
 const AdminSchedules = lazy(() => import("@/pages/admin/AdminSchedules").then((mod) => ({ default: mod.AdminSchedules })));
+const AdminCreative = lazy(() => import("@/pages/admin/AdminCreative").then((mod) => ({ default: mod.AdminCreative })));
 
 function Loading() {
   return (
@@ -42,16 +46,18 @@ function Loading() {
 
 function UserLayout() {
   return (
-    <div className="min-h-screen flex flex-col bg-yingge-gray">
-      <Navbar title="云焕非遗" subtitle="英歌文化数字展示平台" />
-      <main className="flex-1 pt-[140px]">
-        <ErrorBoundary>
-          <Suspense fallback={<Loading />}>
-            <Outlet />
-          </Suspense>
-        </ErrorBoundary>
-      </main>
-      <Footer />
+    <div className="min-h-screen flex flex-col bg-yingge-gray relative overflow-x-hidden">
+      <div className="relative z-10">
+        <Navbar title="云焕非遗" subtitle="英歌文化数字展示平台" />
+        <main className="flex-1 pt-[140px]">
+          <ErrorBoundary>
+            <Suspense fallback={<Loading />}>
+              <Outlet />
+            </Suspense>
+          </ErrorBoundary>
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }
@@ -83,6 +89,7 @@ export default function App() {
             <Route path="logs" element={<AdminLogs />} />
             <Route path="news" element={<AdminNews />} />
             <Route path="wechat" element={<AdminWechat />} />
+            <Route path="creative" element={<AdminCreative />} />
           </Route>
           <Route element={<UserLayout />}>
             <Route path="/" element={<Home />} />
@@ -95,6 +102,9 @@ export default function App() {
             <Route path="/logs" element={<PracticeLogs />} />
             <Route path="/mask-diy" element={<MaskDIY />} />
             <Route path="/schedule" element={<PerformanceSchedule />} />
+            <Route path="/creative" element={<CreativePage />} />
+            <Route path="/creative/product/:id" element={<CreativeProductDetail />} />
+            <Route path="/notices" element={<Notices />} />
           </Route>
         </Routes>
       </Suspense>

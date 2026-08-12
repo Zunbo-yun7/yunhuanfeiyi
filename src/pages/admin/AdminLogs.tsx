@@ -299,6 +299,7 @@ export function AdminLogs() {
                 label="图片（可选）"
                 value={formData.image}
                 onChange={(url) => setFormData({ ...formData, image: url })}
+                category="practice-logs"
               />
 
               <div className="flex items-center gap-4">

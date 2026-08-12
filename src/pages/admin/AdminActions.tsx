@@ -377,6 +377,7 @@ export function AdminActions() {
                   label="图片"
                   value={editingAction.image}
                   onChange={(url) => setEditingAction({ ...editingAction, image: url })}
+                  category="actions-image"
                 />
               </div>
               <div>

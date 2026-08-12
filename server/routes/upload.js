@@ -13,15 +13,15 @@ router.post('/image', authMiddleware, upload.single('image'), async (req, res) =
     }
 
     const { originalname, buffer } = req.file;
+    const { category } = req.body;
     
-    const result = await uploadImage(buffer, originalname);
+    const result = await uploadImage(buffer, originalname, category);
 
     if (result.success) {
       res.json({
         success: true,
         message: '上传成功',
         url: result.url,
-        thumbUrl: result.thumbUrl,
       });
     } else {
       res.status(500).json({ success: false, message: result.error });
@@ -38,12 +38,14 @@ router.post('/images', authMiddleware, upload.array('images', 10), async (req, r
       return res.status(400).json({ message: '请选择要上传的图片' });
     }
 
+    const { category } = req.body;
+
     const fileBuffers = req.files.map(file => ({
       buffer: file.buffer,
       fileName: file.originalname,
     }));
 
-    const results = await uploadImages(fileBuffers);
+    const results = await uploadImages(fileBuffers, category);
 
     const successResults = results.filter(r => r.success);
     const failedCount = results.length - successResults.length;

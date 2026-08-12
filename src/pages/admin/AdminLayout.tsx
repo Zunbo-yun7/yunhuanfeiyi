@@ -16,6 +16,7 @@ import {
   Calendar,
   Newspaper,
   MessageCircle,
+  Gift,
 } from 'lucide-react';
 
 const menuItems = [
@@ -30,6 +31,7 @@ const menuItems = [
   { path: '/admin/people', label: '人物故事', icon: Users },
   { path: '/admin/schedules', label: '演出时间表', icon: Calendar },
   { path: '/admin/logs', label: '实践日志', icon: FileText },
+  { path: '/admin/creative', label: '文创商品', icon: Gift },
 ];
 
 export function AdminLayout() {
@@ -49,14 +51,14 @@ export function AdminLayout() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex">
-      {/* 侧边栏 - 桌面端 */}
-      <aside className="hidden md:flex md:flex-col w-64 bg-yingge-dark text-white">
-        <div className="p-6 border-b border-white/10">
+      {/* 侧边栏 - 桌面端（sticky固定，外层仍占位，不遮挡内容） */}
+      <aside className="hidden md:flex md:flex-col w-64 bg-yingge-dark text-white sticky top-0 h-screen overflow-y-auto flex-shrink-0 z-20">
+        <div className="p-6 border-b border-white/10 flex-shrink-0">
           <h1 className="font-serif font-bold text-xl text-yingge-gold">云焕非遗</h1>
           <p className="text-sm text-white/60 mt-1">管理后台</p>
         </div>
 
-        <nav className="flex-1 py-4">
+        <nav className="flex-1 py-4 overflow-y-auto">
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
@@ -77,7 +79,7 @@ export function AdminLayout() {
           })}
         </nav>
 
-        <div className="p-4 border-t border-white/10">
+        <div className="p-4 border-t border-white/10 flex-shrink-0">
           <div className="flex items-center gap-3 mb-4 px-2">
             <div className="w-10 h-10 bg-yingge-gold/20 rounded-full flex items-center justify-center">
               <span className="text-yingge-gold font-bold">{admin?.username?.[0]?.toUpperCase()}</span>
@@ -140,7 +142,7 @@ export function AdminLayout() {
       </div>
 
       {/* 主内容区 */}
-      <main className="flex-1 md:ml-0 pt-16 md:pt-0 overflow-auto">
+      <main className="flex-1 min-w-0 max-h-screen overflow-auto pt-16 md:pt-0">
         <div className="p-4 md:p-8">
           <Outlet />
         </div>

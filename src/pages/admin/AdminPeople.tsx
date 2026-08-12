@@ -611,6 +611,7 @@ export function AdminPeople() {
                   label="头像"
                   value={editingPerson.avatar}
                   onChange={(url) => setEditingPerson({ ...editingPerson, avatar: url })}
+                  category="people"
                 />
               </div>
               <div>

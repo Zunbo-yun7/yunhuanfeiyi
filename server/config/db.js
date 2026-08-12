@@ -3,6 +3,10 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const sslConfig = process.env.DB_HOST && process.env.DB_HOST.includes('tidbcloud') 
+  ? { ssl: { rejectUnauthorized: false } }
+  : {};
+
 const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
   port: process.env.DB_PORT || 3306,
@@ -12,6 +16,7 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
+  ...sslConfig,
 });
 
 export default pool;

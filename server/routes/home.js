@@ -39,6 +39,8 @@ router.get('/', async (req, res) => {
       title: c.title,
       impact: c.impact,
       description: c.description,
+      statNumber: c.stat_number || '',
+      statLabel: c.stat_label || '',
       source: c.source,
       sourceUrl: c.source_url,
     })) : defaultChallenges;

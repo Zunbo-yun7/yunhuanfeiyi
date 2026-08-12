@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import useFetchData from '@/hooks/useFetchData';
 import { EquipmentCard } from '../components/Card';
 import { X, Info } from 'lucide-react';
+import { Strands, ShinyText, BorderGlow } from '@/components/reactbits';
 
 interface EquipmentItem {
   id: string;
@@ -49,15 +50,27 @@ export function EquipmentGuide() {
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/60" />
+        {/* React Bits: Strands 流动光带背景动画 */}
+        <Strands
+          colors={['#B22222', '#C8A060', '#8B0000', '#2F4F4F']}
+          count={4}
+          speed={0.3}
+          amplitude={0.8}
+          intensity={0.4}
+          opacity={0.5}
+          scale={2}
+        />
         <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-4">
-          <h1 className="font-serif font-bold text-3xl md:text-5xl text-white mb-2">
-            脸谱与装备图鉴
-          </h1>
+          <ShinyText
+            text="脸谱与装备图鉴"
+            speed={4}
+            className="font-serif font-bold text-3xl md:text-5xl mb-2"
+          />
           <p className="text-yingge-gold">欣赏精美的脸谱与装备</p>
         </div>
       </section>
 
-      <section className="py-16 px-4">
+      <section id="mask" className="py-16 px-4">
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-serif font-bold text-3xl text-yingge-dark mb-4">
@@ -84,20 +97,28 @@ export function EquipmentGuide() {
 
           {equipmentData.map((category) => (
             <div
+              id="costume"
               key={category.category}
               className={activeCategory === category.category ? 'block' : 'hidden'}
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {category.items.map((item, index) => (
-                  <EquipmentCard
+                  <BorderGlow
                     key={item.id}
-                    name={item.name}
-                    description={item.description}
-                    image={item.image}
-                    onClick={() => setSelectedItem(item)}
+                    glowIntensity={0.5}
+                    borderColor="rgba(200, 160, 96, 0.3)"
+                    glowColor="#C8A060"
+                    borderRadius={12}
                     className="animate-slide-up"
                     style={{ animationDelay: `${index * 100}ms` }}
-                  />
+                  >
+                    <EquipmentCard
+                      name={item.name}
+                      description={item.description}
+                      image={item.image}
+                      onClick={() => setSelectedItem(item)}
+                    />
+                  </BorderGlow>
                 ))}
               </div>
             </div>

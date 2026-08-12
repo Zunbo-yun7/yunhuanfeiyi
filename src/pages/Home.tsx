@@ -8,6 +8,7 @@ import {
   AlertTriangle,
   TrendingDown,
   Users,
+  MapPin,
   Sparkles,
   Lightbulb,
   Globe,
@@ -33,12 +34,18 @@ import {
   Float,
   Pulse,
 } from '@/components/Animated';
+import { SectionHeader } from '@/components/SectionHeader';
+import { Strands, ShinyText, BorderGlow } from '@/components/reactbits';
+import { lazy, Suspense } from 'react';
+const MascotAndCreative = lazy(() => import('@/components/MascotAndCreative').then(m => ({ default: m.MascotAndCreative })));
 
 interface ChallengeItem {
   icon: string;
   title: string;
   description: string;
   impact: string;
+  statNumber: string;
+  statLabel: string;
   source: string;
   sourceUrl: string;
 }
@@ -158,28 +165,34 @@ const articleData = {
 
 const heritageChallenges = [
   {
-    icon: TrendingDown,
-    title: '传播碎片化，内涵挖掘不足',
-    description: '英歌舞短视频播放量破45亿，但传播以视觉冲击片段为主，历史渊源、脸谱寓意、阵法文化等深层内涵难以通过碎片化视频系统传递，用户知其然不知其所以然。',
-    impact: '文化认知浅层化',
-    source: '英歌舞短视频播放破45亿报道',
-    sourceUrl: 'http://m.toutiao.com/group/7610332822931079690/',
-  },
-  {
     icon: Users,
-    title: '年轻人有兴趣，但缺学习渠道',
-    description: '抖音00后非遗视频创作者同比增长95%，年轻群体对非遗兴趣高涨，但英歌舞缺乏系统化的线上学习平台，动作、脸谱、历史等知识散落在各处，入门门槛高。',
-    impact: '传承渠道断层',
-    source: '抖音2025非遗数据报告',
-    sourceUrl: 'https://3g.163.com/news/article/K0GCCE7J05149B41.html',
+    title: '传承人极度稀缺，断层危机严峻',
+    description: '普宁全市英歌项目各级传承人仅10人，其中国家级1人、省级2人。面对全市103支英歌队的传承需求，传承人数量严重不足，且老龄化趋势明显，"人走技失"风险持续加剧。',
+    impact: '传承后继乏人',
+    statNumber: '仅10人',
+    statLabel: '全市各级传承人',
+    source: '澎湃新闻·春节话非遗',
+    sourceUrl: 'https://m.thepaper.cn/newsDetail_forward_30090799',
   },
   {
-    icon: AlertTriangle,
-    title: '数字化程度低，体验单一',
-    description: '英歌数字化仍以视频播放和图文展示为主，首个英歌舞数字艺术馆2025年才上线，缺乏互动式、沉浸式的数字体验，难以满足年轻一代的参与需求。',
-    impact: '数字体验滞后',
-    source: '首个英歌舞数字艺术馆上线报道',
-    sourceUrl: 'https://c.m.163.com/news/a/JVV3KV7505388J4C.html',
+    icon: BookOpen,
+    title: '口传心授模式，传承效率低下',
+    description: '英歌舞传统传承依赖"口传心授"，老一辈艺人用潮汕方言口诀教学，从发力技巧到队形变化全靠面对面示范。这种方式学习周期长、地域限制大、难以规模化复制，导致传播范围受限。',
+    impact: '传承难以规模化',
+    statNumber: '口传心授',
+    statLabel: '传统传承方式',
+    source: '新媒体时代非物质文化遗产的推广策略研究',
+    sourceUrl: 'https://m.renrendoc.com/paper/479091659.html',
+  },
+  {
+    icon: MapPin,
+    title: '地域壁垒森严，受众认知浅层',
+    description: '《非物质文化遗产公众知晓度与参与度调查报告》显示，仅四成受访者表示较为了解非遗，超七成停留在"听过"层面。英歌舞传统传播依赖线下演出，受地域限制严重，外地受众难以系统接触其文化内涵。',
+    impact: '传播范围受限',
+    statNumber: '仅40%',
+    statLabel: '受访者较了解非遗',
+    source: '非物质文化遗产公众知晓度与参与度调查报告(2022)',
+    sourceUrl: 'http://m.toutiao.com/group/7130511499709121027/',
   },
 ];
 
@@ -245,6 +258,7 @@ const iconMap: Record<string, any> = {
   Globe,
   Sparkles,
   Lightbulb,
+  MapPin,
 };
 
 export function Home() {
@@ -257,6 +271,8 @@ export function Home() {
   const [currentVideo, setCurrentVideo] = useState<{ src: string; title: string } | null>(null);
   const [broken, setBroken] = useState(false);
   const [showBreakHint, setShowBreakHint] = useState(false);
+  const [visibleNoticeCount, setVisibleNoticeCount] = useState(3);
+  const videoSectionRef = useRef<HTMLDivElement>(null);
   const challengeSectionRef = useRef<HTMLDivElement>(null);
   const autoBreakTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hintTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -280,6 +296,27 @@ export function Home() {
       setCurrentSlide((prev) => (prev + 1) % bannerItems.length);
     }, 5000);
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const updateCount = () => {
+      const videoEl = videoSectionRef.current;
+      if (!videoEl) return;
+      const headerHeight = 60;
+      const itemHeight = 54;
+      const videoHeight = videoEl.offsetHeight;
+      const available = videoHeight - headerHeight;
+      const count = Math.max(2, Math.floor(available / itemHeight));
+      setVisibleNoticeCount(count);
+    };
+    updateCount();
+    window.addEventListener('resize', updateCount);
+    const observer = new ResizeObserver(updateCount);
+    if (videoSectionRef.current) observer.observe(videoSectionRef.current);
+    return () => {
+      window.removeEventListener('resize', updateCount);
+      observer.disconnect();
+    };
   }, []);
 
   useEffect(() => {
@@ -358,6 +395,16 @@ export function Home() {
   return (
     <div className="min-h-screen bg-yingge-gray overflow-x-hidden">
       <section className="relative w-full overflow-hidden">
+        {/* React Bits: Strands 流动光带背景 */}
+        <Strands
+          colors={['#B22222', '#C8A060', '#8B0000', '#2F4F4F']}
+          count={4}
+          speed={0.3}
+          amplitude={0.8}
+          intensity={0.4}
+          opacity={0.5}
+          scale={2}
+        />
         <div className="relative w-full" style={{ paddingBottom: '38%' }}>
           <AnimatePresence mode="wait">
             <motion.div
@@ -515,24 +562,9 @@ export function Home() {
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-yingge-gray to-transparent z-10" />
       </section>
 
-      <section className="py-20 px-4 relative">
+      <section id="teams" className="py-20 px-4 relative">
         <div className="container mx-auto max-w-6xl">
-          <TextReveal className="text-center mb-16">
-            <div className="inline-block">
-              <h2 className="font-serif font-bold text-3xl md:text-5xl text-yingge-dark mb-4 tracking-widest">
-                闯<span className="text-yingge-red mx-2">·</span>舞阵
-              </h2>
-              <motion.div
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className="w-24 h-0.5 bg-yingge-gold mx-auto"
-                style={{ transformOrigin: 'center' }}
-              />
-            </div>
-            <p className="text-yingge-dark/50 mt-4 text-sm tracking-wider">YINGGE DANCE TEAMS</p>
-          </TextReveal>
+          <SectionHeader title="闯·舞阵" subtitle="YINGGE DANCE TEAMS" align="center" variant="dark" showIcon={false} />
 
           <StaggerList className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             {danceTeams.map((team) => (
@@ -584,7 +616,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className="py-20 px-4 bg-white relative overflow-hidden">
+      <section id="show" className="py-20 px-4 bg-white relative overflow-hidden">
         <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-yingge-gray to-transparent pointer-events-none" />
         <motion.div
           className="absolute top-0 right-0 w-96 h-96 bg-yingge-red/5 rounded-full"
@@ -606,22 +638,12 @@ export function Home() {
         <div className="container mx-auto max-w-6xl relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
             <div className="lg:col-span-2">
-              <TextReveal className="mb-10">
-                <div className="inline-block">
-                  <h2 className="font-serif font-bold text-3xl md:text-4xl text-yingge-dark mb-3 tracking-widest">
-                    英歌展演
-                  </h2>
-                  <motion.div
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    viewport={{ once: true }}
-                    className="w-16 h-0.5 bg-yingge-gold"
-                    style={{ transformOrigin: 'left' }}
-                  />
-                </div>
-              </TextReveal>
+              <div className="mb-6">
+                <SectionHeader title="英歌展演" align="left" variant="dark" showIcon={false} />
+              </div>
 
               <FadeInLeft>
+                <div ref={videoSectionRef}>
                 <motion.div
                   onClick={() => openVideo('/videos/yingge-promo-1.mp4', '英歌舞精彩表演集锦')}
                   className="relative overflow-hidden group cursor-pointer"
@@ -654,93 +676,75 @@ export function Home() {
                     <p className="text-white/70 text-sm mt-2">感受千年非遗的震撼魅力</p>
                   </div>
                 </motion.div>
+                </div>
               </FadeInLeft>
-
-              <StaggerList direction="up" className="mt-8">
-                {performanceList.map((item, index) => (
-                  <motion.li
-                    key={index}
-                    className="flex items-center justify-between py-4 border-b border-yingge-border/50 cursor-pointer px-2 -mx-2"
-                    whileHover={{ backgroundColor: 'rgba(0,0,0,0.02)' }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <span className="text-yingge-dark flex items-center truncate flex-1">
-                      <motion.span
-                        className="w-1.5 h-1.5 rounded-full bg-yingge-gold mr-3 flex-shrink-0"
-                        whileHover={{ scale: 1.5 }}
-                        transition={{ type: 'spring', stiffness: 500 }}
-                      />
-                      <span className="truncate">{item.title}</span>
-                    </span>
-                    <span className="text-yingge-dark/40 text-sm ml-4 flex-shrink-0 font-mono">
-                      {item.date}
-                    </span>
-                  </motion.li>
-                ))}
-              </StaggerList>
             </div>
 
-            <FadeInRight delay={0.2}>
-              <TextReveal className="mb-10">
-                <div className="inline-block">
-                  <h2 className="font-serif font-bold text-3xl md:text-4xl text-yingge-dark mb-3 tracking-widest">
-                    通知公告
-                  </h2>
-                  <motion.div
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    viewport={{ once: true }}
-                    className="w-16 h-0.5 bg-yingge-gold"
-                    style={{ transformOrigin: 'left' }}
-                  />
-                </div>
-              </TextReveal>
-
-              <div className="bg-yingge-gray/50 p-6">
-                <StaggerList direction="up">
-                  {performanceList.map((item, index) => (
-                    <motion.li
-                      key={index}
-                      className="group cursor-pointer py-3"
-                      whileHover={{ x: 5 }}
-                      transition={{ type: 'spring', stiffness: 300 }}
+            <div id="notice">
+              <FadeInRight delay={0.2}>
+                <div className="mb-6 flex items-end justify-between">
+                  <div>
+                    <h2 className="font-serif font-bold text-2xl md:text-3xl text-yingge-dark tracking-widest">通知公告</h2>
+                    <div className="w-16 h-0.5 bg-yingge-gold mt-2" />
+                  </div>
+                  {wechatArticles && wechatArticles.length > 0 && (
+                    <button
+                      onClick={() => navigate('/notices')}
+                      className="px-3 py-1 text-xs border border-yingge-dark/20 rounded-full text-yingge-dark/60 hover:text-yingge-red hover:border-yingge-red transition-colors"
                     >
-                      <div className="flex items-start">
-                        <span className="text-yingge-red font-serif font-bold mr-3 text-lg">{index + 1}</span>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-yingge-dark group-hover:text-yingge-red transition-colors line-clamp-2 leading-relaxed">
-                            {item.title}
-                          </p>
-                          <p className="text-yingge-dark/40 text-xs mt-2">{item.date}</p>
-                        </div>
-                      </div>
-                    </motion.li>
-                  ))}
-                </StaggerList>
-              </div>
-            </FadeInRight>
+                      更多+
+                    </button>
+                  )}
+                </div>
+
+                <div className="bg-white rounded-xl border border-gray-100 shadow-sm">
+                  {wechatArticles && wechatArticles.length > 0 ? (
+                    <StaggerList direction="up">
+                      {wechatArticles.slice(0, visibleNoticeCount).map((article) => {
+                        const d = new Date(article.published_at);
+                        const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                        return (
+                          <motion.li
+                            key={article.id}
+                            className="group cursor-pointer flex items-center gap-4 px-4 py-2.5 border-b border-gray-100 last:border-b-0 hover:bg-yingge-gold/5 transition-colors"
+                            whileHover={{ x: 4 }}
+                            transition={{ type: 'spring', stiffness: 300 }}
+                            onClick={() => {
+                              if (confirm('将跳转到微信公众号查看原文，是否继续？')) {
+                                window.open(article.wechat_url, '_blank');
+                              }
+                            }}
+                          >
+                            <span className="flex-shrink-0 text-xs font-bold text-yingge-red w-20">{dateStr}</span>
+                            <span className="text-sm text-yingge-dark font-medium leading-snug group-hover:text-yingge-red transition-colors line-clamp-1 flex-1">
+                              {article.title}
+                            </span>
+                            {!!article.is_top && (
+                              <span className="flex-shrink-0 text-[10px] px-1.5 py-0.5 bg-yingge-gold/20 text-yingge-gold font-bold rounded">
+                                置顶
+                              </span>
+                            )}
+                          </motion.li>
+                        );
+                      })}
+                    </StaggerList>
+                  ) : (
+                    <div className="py-8 text-center text-yingge-dark/40 text-sm">
+                      <Newspaper className="w-10 h-10 mx-auto mb-3 opacity-30" />
+                      暂无公告内容
+                    </div>
+                  )}
+                </div>
+              </FadeInRight>
+            </div>
           </div>
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-yingge-gray to-transparent pointer-events-none" />
       </section>
 
-      <section className="py-20 px-4 relative">
+      <section id="formations" className="py-20 px-4 relative">
         <div className="container mx-auto max-w-6xl">
-          <TextReveal className="text-center mb-16">
-            <div className="inline-block">
-              <h2 className="font-serif font-bold text-3xl md:text-5xl text-yingge-dark mb-4 tracking-widest">
-                识<span className="text-yingge-red mx-2">·</span>阵法
-              </h2>
-              <motion.div
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true }}
-                className="w-24 h-0.5 bg-yingge-gold mx-auto"
-                style={{ transformOrigin: 'center' }}
-              />
-            </div>
-            <p className="text-yingge-dark/50 mt-4 text-sm tracking-wider">YINGGE FORMATIONS</p>
-          </TextReveal>
+          <SectionHeader title="识·阵法" subtitle="YINGGE FORMATIONS" align="center" variant="dark" showIcon={false} />
 
           <div className="bg-white p-8 md:p-12 shadow-sm">
             <StaggerList className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-8">
@@ -784,7 +788,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className="py-20 px-4 bg-yingge-dark relative overflow-hidden">
+      <section id="creative" className="py-20 px-4 bg-yingge-dark relative overflow-hidden">
         <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-yingge-gray to-transparent pointer-events-none" />
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-full h-full" style={{
@@ -794,21 +798,7 @@ export function Home() {
         </div>
 
         <div className="container mx-auto max-w-6xl relative z-10">
-          <TextReveal className="text-center mb-16">
-            <div className="inline-block">
-              <h2 className="font-serif font-bold text-3xl md:text-5xl text-white mb-4 tracking-widest">
-                取<span className="text-yingge-gold mx-2">·</span>神器
-              </h2>
-              <motion.div
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true }}
-                className="w-24 h-0.5 bg-yingge-gold mx-auto"
-                style={{ transformOrigin: 'center' }}
-              />
-            </div>
-            <p className="text-white/50 mt-4 text-sm tracking-wider">CULTURAL CREATIONS</p>
-          </TextReveal>
+          <SectionHeader title="取·神器" subtitle="CULTURAL CREATIONS" align="center" variant="light" showIcon={false} />
 
           <ZoomIn>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
@@ -857,127 +847,109 @@ export function Home() {
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-b from-transparent via-white/50 to-white pointer-events-none" />
       </section>
 
-      <section className="py-20 px-4 bg-white relative overflow-hidden">
+      <section id="practice" className="py-20 px-4 relative overflow-hidden"
+        style={{
+          background: 'linear-gradient(180deg, #ffffff 0%, #ffffff 60%, #FBF0F0 85%, #FBF0F0 100%)',
+        }}
+      >
         <div className="container mx-auto max-w-6xl relative z-10">
-          <TextReveal className="text-center mb-12">
-            <div className="inline-block">
-              <h2 className="font-serif font-bold text-3xl md:text-5xl text-yingge-dark mb-4 tracking-widest">
-                行<span className="text-yingge-red mx-2">·</span>足迹
-              </h2>
-              <motion.div
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true }}
-                className="w-24 h-0.5 bg-yingge-gold mx-auto"
-                style={{ transformOrigin: 'center' }}
-              />
-            </div>
-            <p className="text-yingge-dark/50 mt-4 text-sm tracking-wider">PRACTICE JOURNAL</p>
-          </TextReveal>
+          <SectionHeader title="行·足迹" subtitle="PRACTICE JOURNAL" align="center" variant="dark" showIcon={false} />
 
           <FadeInUp>
             {wechatArticles && wechatArticles.length > 0 ? (
-              <div className="space-y-6">
-                {wechatArticles.map((article, index) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl mx-auto">
+                {wechatArticles.slice(0, 4).map((article, index) => (
                   <motion.div
                     key={article.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    whileHover={{ y: -8 }}
-                    transition={{ 
-                      delay: index * 0.1,
-                      type: 'spring', 
-                      stiffness: 300, 
-                      damping: 20 
+                    whileHover={{ y: -4 }}
+                    transition={{
+                      delay: index * 0.08,
+                      type: 'spring',
+                      stiffness: 300,
+                      damping: 20,
                     }}
                     onClick={() => {
                       if (confirm('将跳转到微信公众号查看原文，是否继续？')) {
                         window.location.href = article.wechat_url;
                       }
                     }}
-                    className="group relative bg-gradient-to-br from-yingge-gray to-white rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 border border-yingge-gold/10"
+                    className="cursor-pointer"
                   >
-                    <div className="grid grid-cols-1 lg:grid-cols-2">
-                      <div className="relative h-48 lg:h-auto overflow-hidden">
-                        <motion.img
-                          src={article.thumbnail_url || 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Chinese%20traditional%20Yingge%20dance%20performance%20team%20red%20costumes%20heroic%20spirit%20cultural%20heritage%20documentary%20style&image_size=landscape_16_9'}
-                          alt={article.title}
-                          className="w-full h-full object-cover"
-                          whileHover={{ scale: 1.08 }}
-                          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-white/20" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                        {article.is_top && (
-                          <div className="absolute top-4 left-4 px-3 py-1 bg-yingge-gold text-yingge-dark text-xs font-bold rounded-full">
-                            置顶
-                          </div>
-                        )}
-                        <div className="absolute bottom-4 left-4 right-4 lg:hidden">
-                          <div className="flex items-center text-white/80 text-xs mb-2">
-                            <Calendar size={14} className="mr-2" />
-                            {formatDate(article.published_at)}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="p-6 lg:p-8 flex flex-col justify-center">
-                        <div className="flex items-center mb-4">
-                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-yingge-red to-red-700 flex items-center justify-center mr-3 shadow-md">
-                            <Newspaper size={20} className="text-white" />
-                          </div>
-                          <span className="text-xs text-yingge-gold font-medium tracking-wider">
+                    <BorderGlow
+                      glowIntensity={0.35}
+                      borderColor="rgba(200, 160, 96, 0.15)"
+                      glowColor="#C8A060"
+                      borderRadius={16}
+                      className="h-full"
+                    >
+                      <div className="group relative bg-white rounded-[16px] overflow-hidden flex flex-col h-full">
+                        {/* 缩略图区域 */}
+                        <div className="relative h-40 sm:h-44 overflow-hidden flex-shrink-0">
+                          <motion.img
+                            src={article.thumbnail_url || 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Chinese%20traditional%20Yingge%20dance%20performance%20team%20red%20costumes%20heroic%20spirit%20cultural%20heritage%20documentary%20style&image_size=landscape_16_9'}
+                            alt={article.title}
+                            className="w-full h-full object-cover"
+                            whileHover={{ scale: 1.06 }}
+                            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                          {!!article.is_top && (
+                            <div className="absolute top-3 left-3 px-2.5 py-1 bg-yingge-gold text-yingge-dark text-xs font-bold rounded-full">
+                              置顶
+                            </div>
+                          )}
+                          {/* 公众号名称叠加在图片上 */}
+                          <div className="absolute bottom-3 left-4 flex items-center text-white/90 text-sm">
+                            <Newspaper size={13} className="mr-1.5" />
                             {article.wechat_account}
-                          </span>
+                          </div>
                         </div>
-                        <h3 className="font-serif font-bold text-2xl md:text-3xl text-yingge-dark mb-4 leading-tight group-hover:text-yingge-red transition-colors duration-300">
-                          {article.title}
-                        </h3>
-                        <p className="text-yingge-dark/60 leading-relaxed mb-6 line-clamp-3">
-                          {article.summary || '点击查看公众号原文'}
-                        </p>
-                        <div className="hidden lg:flex items-center text-yingge-dark/40 text-sm mb-6">
-                          <Calendar size={16} className="mr-2" />
-                          <span>{formatDate(article.published_at)}</span>
+                        {/* 内容区域 */}
+                        <div className="p-4 sm:p-5 flex flex-col flex-1">
+                          <h3 className="font-serif font-bold text-base sm:text-lg text-yingge-dark leading-snug mb-2 line-clamp-2 group-hover:text-yingge-red transition-colors duration-300">
+                            {article.title}
+                          </h3>
+                          <p className="text-yingge-dark/55 text-sm leading-relaxed line-clamp-2 mb-3 flex-1">
+                            {article.summary || '点击查看公众号原文'}
+                          </p>
+                          <div className="flex items-center justify-between mt-auto pt-2 border-t border-yingge-dark/5">
+                            <div className="flex items-center text-yingge-dark/40 text-xs">
+                              <Calendar size={12} className="mr-1.5" />
+                              {formatDate(article.published_at)}
+                            </div>
+                            <div className="flex items-center text-yingge-red text-xs font-medium group-hover:gap-1.5 transition-all">
+                              <span>阅读全文</span>
+                              <ArrowRight size={12} className="ml-1" />
+                            </div>
+                          </div>
                         </div>
-                        <div className="flex items-center justify-between">
-                          <motion.div
-                            className="flex items-center text-yingge-red font-medium text-sm group-hover:gap-2 transition-all"
-                            whileHover={{ x: 4 }}
-                          >
-                            <span>阅读全文</span>
-                            <ArrowRight size={16} className="ml-1" />
-                          </motion.div>
-                          <a
-                            href={article.wechat_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                            className="flex items-center text-xs text-yingge-dark/40 hover:text-yingge-gold transition-colors"
-                          >
-                            <span>公众号原文</span>
-                            <ExternalLink size={12} className="ml-1" />
-                          </a>
-                        </div>
+                        {/* 底部金红渐变条 */}
+                        <div className="h-0.5 bg-gradient-to-r from-yingge-gold via-yingge-red to-yingge-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                       </div>
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-yingge-gold via-yingge-red to-yingge-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                    </BorderGlow>
                   </motion.div>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12">
-                <div className="w-16 h-16 mx-auto mb-4 bg-yingge-gray rounded-full flex items-center justify-center">
-                  <Newspaper size={32} className="text-yingge-dark/30" />
+              <div className="text-center py-8">
+                <div className="w-12 h-12 mx-auto mb-3 bg-yingge-gray rounded-full flex items-center justify-center">
+                  <Newspaper size={24} className="text-yingge-dark/30" />
                 </div>
-                <p className="text-yingge-dark/50">暂无公众号文章</p>
+                <p className="text-yingge-dark/50 text-sm">暂无公众号文章</p>
               </div>
             )}
           </FadeInUp>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-transparent via-yingge-dark/30 to-yingge-dark pointer-events-none z-20" />
+
       </section>
 
-      <section ref={challengeSectionRef} className="relative overflow-hidden">
+      <Suspense fallback={<div className="h-[600px] flex items-center justify-center bg-yingge-dark"><div className="w-10 h-10 rounded-full border-2 border-yingge-gold/20 border-t-yingge-gold animate-spin" /></div>}>
+        <MascotAndCreative mode="featured" />
+      </Suspense>
+
+      <section id="challenge" ref={challengeSectionRef} className="relative overflow-hidden">
         <AnimatePresence mode="wait">
           {!broken ? (
             <motion.div
@@ -986,32 +958,15 @@ export function Home() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
-              className="py-16 md:py-20 px-4 bg-gradient-to-b from-yingge-dark to-yingge-dark/95 relative"
+              className="py-16 md:py-20 px-4 relative"
+              style={{
+                background: 'linear-gradient(180deg, #F3D9D9 0%, #E8B8B8 10%, #8B3A3A 25%, #2C2C2C 50%, #2C2C2C 100%)',
+              }}
             >
-              <div className="absolute inset-0 opacity-5">
-                <div className="absolute top-0 left-0 w-full h-full" style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 0 L20 40 M0 20 L40 20' stroke='%23C8A060' stroke-width='0.5'/%3E%3C/svg%3E")`,
-                  backgroundRepeat: 'repeat',
-                }} />
-              </div>
-
               <div className="container mx-auto max-w-6xl relative z-10">
-                <TextReveal className="text-center mb-6">
-                  <div className="inline-block">
-                    <h2 className="font-serif font-bold text-3xl md:text-5xl text-white mb-4 tracking-widest">
-                      困<span className="text-yingge-gold mx-2">·</span>境
-                    </h2>
-                    <motion.div
-                      initial={{ scaleX: 0 }}
-                      whileInView={{ scaleX: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                      className="w-24 h-0.5 bg-yingge-gold mx-auto"
-                      style={{ transformOrigin: 'center' }}
-                    />
-                  </div>
-                  <p className="text-white/50 mt-4 text-sm tracking-wider">HERITAGE CHALLENGES</p>
-                </TextReveal>
+                <div className="mb-6">
+                  <SectionHeader title="困·境" subtitle="HERITAGE CHALLENGES" align="center" variant="light" showIcon={false} />
+                </div>
 
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
@@ -1041,7 +996,14 @@ export function Home() {
                         whileHover={{ y: -6, scale: 1.02 }}
                         className="group"
                       >
-                        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 h-full hover:border-yingge-gold/40 transition-all duration-500 hover:bg-white/[0.08] flex flex-col relative overflow-hidden">
+                        <BorderGlow
+                          glowIntensity={0.4}
+                          borderColor="rgba(200, 160, 96, 0.2)"
+                          glowColor="#C8A060"
+                          borderRadius={24}
+                          className="h-full"
+                        >
+                        <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 h-full hover:bg-white/[0.08] transition-all duration-500 flex flex-col relative overflow-hidden">
                           <div className="absolute top-0 right-0 w-32 h-32 bg-yingge-red/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-yingge-red/20 transition-colors duration-700" />
 
                           <div className="relative z-10 flex flex-col flex-1">
@@ -1053,9 +1015,14 @@ export function Home() {
                               >
                                 <Icon size={30} className="text-yingge-gold" />
                               </motion.div>
-                              <span className="text-xs bg-yingge-gold/15 text-yingge-gold px-3 py-1.5 rounded-full font-medium backdrop-blur-sm">
-                                {challenge.impact}
-                              </span>
+                              <div className="text-right">
+                                <div className="text-2xl md:text-3xl font-bold bg-gradient-to-br from-yingge-gold to-amber-400 bg-clip-text text-transparent">
+                                  {challenge.statNumber}
+                                </div>
+                                <div className="text-[10px] text-white/40 mt-0.5">
+                                  {challenge.statLabel}
+                                </div>
+                              </div>
                             </div>
 
                             <h3 className="font-serif font-bold text-xl text-white mb-4 group-hover:text-yingge-gold transition-colors duration-300">{challenge.title}</h3>
@@ -1074,6 +1041,7 @@ export function Home() {
                             </div>
                           </div>
                         </div>
+                        </BorderGlow>
                       </motion.div>
                     );
                   })}
@@ -1141,27 +1109,22 @@ export function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="py-16 md:py-20 px-4 bg-yingge-gray relative"
+              id="innovation"
+              className="py-16 md:py-20 px-4 relative"
+              style={{
+                background: 'linear-gradient(180deg, #F3D9D9 0%, #F5E0E0 15%, #F7EEEE 30%, #f5f5f5 50%, #f5f5f5 100%)',
+              }}
             >
-              <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-yingge-dark/95 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-yingge-red/80 via-yingge-red/40 to-transparent pointer-events-none" />
+              <div className="absolute bottom-0 left-0 right-0 h-28 pointer-events-none"
+                style={{
+                  background: 'linear-gradient(to top, rgba(178,34,34,0.6) 0%, rgba(178,34,34,0.2) 50%, transparent 100%)',
+                }}
+              />
 
               <div className="container mx-auto max-w-6xl relative z-10">
-                <TextReveal className="text-center mb-6">
-                  <div className="inline-block">
-                    <h2 className="font-serif font-bold text-3xl md:text-5xl text-yingge-dark mb-4 tracking-widest">
-                      破<span className="text-yingge-red mx-2">·</span>局
-                    </h2>
-                    <motion.div
-                      initial={{ scaleX: 0 }}
-                      animate={{ scaleX: 1 }}
-                      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                      className="w-24 h-0.5 bg-yingge-gold mx-auto"
-                      style={{ transformOrigin: 'center' }}
-                    />
-                  </div>
-                  <p className="text-yingge-dark/40 mt-4 text-sm tracking-wider">DIGITAL INNOVATION</p>
-                </TextReveal>
+                <div className="mb-6">
+                  <SectionHeader title="破·局" subtitle="DIGITAL INNOVATION" align="center" variant="dark" showIcon={false} />
+                </div>
 
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
@@ -1388,13 +1351,15 @@ export function Home() {
         </AnimatePresence>
       </section>
 
-      <section className="py-12 px-4 bg-yingge-red relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-0 left-0 w-full h-full" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='15' fill='none' stroke='%23C8A060' stroke-width='0.5'/%3E%3C/svg%3E")`,
-            backgroundRepeat: 'repeat',
-          }} />
-        </div>
+      <section className="py-12 px-4 relative overflow-hidden"
+        style={{
+          background: 'linear-gradient(180deg, #B22222 0%, #8B0000 100%)',
+        }}
+      >
+        {/* CSS 装饰背景，替代 Strands 以节省 GPU 性能 */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
+          backgroundImage: `radial-gradient(circle at 20% 50%, #C8A060 0%, transparent 50%), radial-gradient(circle at 80% 50%, #fff 0%, transparent 50%)`,
+        }} />
 
         <FadeInUp className="container mx-auto max-w-4xl text-center relative z-10">
           <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-12">

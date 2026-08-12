@@ -5,6 +5,8 @@ import {
 } from 'lucide-react';
 import api from '@/lib/api';
 import { FadeInUp } from '@/components/Animated/FadeInUp';
+// React Bits 视觉增强组件
+import { Strands, ShinyText } from '@/components/reactbits';
 
 interface Program {
   id?: number;
@@ -258,9 +260,25 @@ export function PerformanceSchedule() {
       {/* Hero 区域 */}
       <div className={`relative bg-gradient-to-r from-yingge-red to-red-700 text-white overflow-hidden ${hasUrgent ? 'pt-20 pb-12' : 'pt-12 pb-12'}`}>
         <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-10"></div>
+        {/* Strands 流动光带背景动画 */}
+        <Strands
+          colors={['#C8A060', '#B22222', '#8B0000', '#FFD700']}
+          count={4}
+          speed={0.4}
+          amplitude={1.2}
+          thickness={0.6}
+          glow={2.8}
+          intensity={0.45}
+          opacity={0.7}
+          scale={1.8}
+        />
         <div className="max-w-6xl mx-auto px-4 relative z-10 text-center">
           <FadeInUp>
-            <h1 className="font-serif font-bold text-3xl md:text-5xl text-white mb-2">演出时间表</h1>
+            <ShinyText
+              text="演出时间表"
+              speed={4}
+              className="font-serif font-bold text-3xl md:text-5xl mb-2"
+            />
             <p className="text-yingge-gold">英歌舞精彩演出，敬请期待</p>
             <p className="text-sm text-white/60 mt-2">
               共 {schedules.length} 场演出
@@ -285,7 +303,7 @@ export function PerformanceSchedule() {
         {/* 横向时间线 */}
         {schedules.length > 0 && (
           <FadeInUp>
-            <div className="mb-12">
+            <div id="timeline" className="mb-12">
               <h2 className="text-xl font-serif font-bold text-gray-800 mb-6 flex items-center gap-2">
                 <Clock className="text-yingge-gold" /> 演出时间线
               </h2>
@@ -305,12 +323,12 @@ export function PerformanceSchedule() {
                     return (
                       <div
                         key={schedule.id}
-                        className="relative flex flex-col items-center w-48 flex-shrink-0 cursor-pointer group"
+                        className="relative flex flex-col items-center w-36 sm:w-40 md:w-48 flex-shrink-0 cursor-pointer group"
                         onClick={() => setSelectedSchedule(schedule)}
                       >
                         {/* 节点圆点 */}
                         <div className={`
-                          relative z-10 w-12 h-12 rounded-full flex items-center justify-center
+                          relative z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center
                           shadow-md transition-all duration-300 group-hover:scale-110
                           ${schedule.computedStatus === 'ongoing'
                             ? 'bg-green-500 ring-4 ring-green-200 animate-pulse'
@@ -336,7 +354,7 @@ export function PerformanceSchedule() {
                         <div className={`
                           mt-4 w-full bg-gradient-to-b ${statusInfo.cardGradient}
                           rounded-xl border-2 ${statusInfo.borderColor}
-                          p-3 transition-all duration-300
+                          p-2 sm:p-3 transition-all duration-300
                           ${schedule.isUrgent ? 'shadow-lg scale-105' : 'shadow-sm hover:shadow-md'}
                           ${schedule.computedStatus === 'completed' || schedule.computedStatus === 'cancelled' ? 'opacity-60' : ''}
                         `}>
@@ -411,16 +429,16 @@ export function PerformanceSchedule() {
 
         {/* 日历+演出列表布局 */}
         <FadeInUp>
-          <div className="mb-10">
+          <div id="calendar" className="mb-10">
             <h2 className="text-2xl font-serif font-bold text-gray-800 mb-6 flex items-center gap-2">
               <Calendar className="text-yingge-gold" /> 演出日历
             </h2>
 
-            <div className="flex gap-6">
+            <div className="flex flex-col lg:flex-row gap-6">
               {/* 左侧日历 */}
               <div className="flex-1 bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
                 {/* 日历头部 */}
-                <div className="bg-gradient-to-r from-yingge-red to-red-600 text-white px-4 py-3 flex items-center justify-between">
+                <div className="bg-gradient-to-r from-yingge-red to-red-600 text-white px-4 py-2 flex items-center justify-between">
                   <button
                     onClick={() => setCurrentDate(prev => {
                       const d = new Date(prev);
@@ -449,7 +467,7 @@ export function PerformanceSchedule() {
                 {/* 星期标题 */}
                 <div className="grid grid-cols-7 bg-gray-50 border-b border-gray-200">
                   {['日', '一', '二', '三', '四', '五', '六'].map(day => (
-                    <div key={day} className="py-2 text-center text-xs font-medium text-gray-500">
+                    <div key={day} className="py-1.5 text-center text-xs font-medium text-gray-500">
                       {day}
                     </div>
                   ))}
@@ -468,7 +486,7 @@ export function PerformanceSchedule() {
                     const cells = [];
 
                     for (let i = 0; i < firstDay; i++) {
-                      cells.push(<div key={`empty-${i}`} className="aspect-square min-h-[50px] border-b border-gray-100"></div>);
+                      cells.push(<div key={`empty-${i}`} className="h-9 md:h-10 border-b border-gray-100"></div>);
                     }
 
                     for (let day = 1; day <= daysInMonth; day++) {
@@ -487,7 +505,7 @@ export function PerformanceSchedule() {
                             setShowDateScheduleModal(true);
                           }}
                           className={`
-                            aspect-square min-h-[50px] p-1 border-b border-gray-100 cursor-pointer
+                            h-9 md:h-10 p-1 border-b border-gray-100 cursor-pointer
                             hover:bg-gray-50 relative transition-colors text-center
                             ${isToday ? 'bg-yingge-red/10 ring-1 ring-yingge-red' : ''}
                             ${hasOngoing ? 'bg-green-50' : ''}
@@ -513,7 +531,7 @@ export function PerformanceSchedule() {
                                     setSelectedSchedule(s);
                                   }}
                                   className={`
-                                    h-4 rounded-full cursor-pointer px-1.5 mx-auto max-w-full
+                                    h-3 rounded-full cursor-pointer px-1 mx-auto max-w-full
                                     flex items-center justify-center
                                     ${s.computedStatus === 'ongoing' ? 'bg-green-500/20' : ''}
                                     ${s.computedStatus === 'upcoming' ? 'bg-blue-500/20' : ''}
@@ -522,7 +540,7 @@ export function PerformanceSchedule() {
                                   `}
                                 >
                                   <span className={`
-                                    text-[10px] font-medium truncate max-w-[calc(100%-4px)]
+                                    text-[9px] font-medium truncate max-w-[calc(100%-4px)]
                                     ${s.computedStatus === 'ongoing' ? 'text-green-700' : ''}
                                     ${s.computedStatus === 'upcoming' ? 'text-blue-700' : ''}
                                     ${s.computedStatus === 'completed' ? 'text-gray-500' : ''}
@@ -547,8 +565,8 @@ export function PerformanceSchedule() {
               </div>
 
               {/* 右侧演出列表 */}
-              <div className="w-80 bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden flex flex-col">
-                <div className="bg-gradient-to-r from-yingge-red to-red-600 text-white px-4 py-3">
+              <div className="w-full lg:w-72 bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden flex flex-col self-start lg:max-h-[55vh]">
+                <div className="bg-gradient-to-r from-yingge-red to-red-600 text-white px-4 py-2">
                   <h3 className="font-serif font-bold text-sm">近期演出</h3>
                   <p className="text-xs text-white/70 mt-0.5">点击查看详情</p>
                 </div>
@@ -585,7 +603,7 @@ export function PerformanceSchedule() {
                               key={schedule.id}
                               onClick={() => setSelectedSchedule(schedule)}
                               className={`
-                                p-3 cursor-pointer hover:bg-gray-50 transition-colors
+                                px-3 py-2 cursor-pointer hover:bg-gray-50 transition-colors
                                 ${schedule.computedStatus === 'ongoing' ? 'bg-green-50/50' : ''}
                               `}
                             >
@@ -607,7 +625,7 @@ export function PerformanceSchedule() {
                                     `} />
                                     <span className="text-sm font-medium text-gray-800 truncate">{schedule.title}</span>
                                   </div>
-                                  <div className="text-xs text-gray-500 mt-1">
+                                  <div className="text-xs text-gray-500 mt-0.5">
                                     {dateTime?.shortDate} {dateTime?.time}
                                   </div>
                                   <div className="text-xs text-gray-400 mt-0.5 flex items-center gap-1">
@@ -631,9 +649,9 @@ export function PerformanceSchedule() {
 
       {/* 日期演出列表模态框 */}
       {showDateScheduleModal && selectedDate && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={() => setShowDateScheduleModal(false)}>
-          <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[80vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
-            <div className="bg-gradient-to-r from-yingge-red to-red-600 text-white px-6 py-4 flex items-center justify-between">
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-2 md:p-4" onClick={() => setShowDateScheduleModal(false)}>
+          <div className="bg-white rounded-2xl w-full max-w-lg md:max-w-2xl max-h-[85vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <div className="bg-gradient-to-r from-yingge-red to-red-600 text-white px-4 md:px-6 py-3 md:py-4 flex items-center justify-between">
               <div>
                 <h2 className="font-serif font-bold text-xl">
                   {selectedDate.getFullYear()}年{selectedDate.getMonth() + 1}月{selectedDate.getDate()}日
@@ -650,7 +668,7 @@ export function PerformanceSchedule() {
               </button>
             </div>
 
-            <div className="p-6 overflow-y-auto" style={{ maxHeight: 'calc(80vh - 100px)' }}>
+            <div className="p-4 md:p-6 overflow-y-auto" style={{ maxHeight: 'calc(85vh - 90px)' }}>
               {(() => {
                 const dateStr = selectedDate.toISOString().split('T')[0];
                 const dateSchedules = schedules.filter(s => s.performance_time.startsWith(dateStr));
@@ -732,19 +750,17 @@ export function PerformanceSchedule() {
 
       {/* 详情模态框 */}
       {selectedSchedule && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={() => setSelectedSchedule(null)}>
-          <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
-            <div className={`
-              px-6 py-5 text-white
-              ${selectedSchedule.computedStatus === 'ongoing'
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-2 md:p-4" onClick={() => setSelectedSchedule(null)}>
+          <div className="bg-white rounded-2xl w-full max-w-lg md:max-w-2xl max-h-[92vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <div className={`px-4 md:px-6 py-4 md:py-5 text-white ${
+              selectedSchedule.computedStatus === 'ongoing'
                 ? 'bg-gradient-to-r from-green-600 to-green-500'
                 : selectedSchedule.computedStatus === 'upcoming'
                   ? 'bg-gradient-to-r from-blue-600 to-blue-500'
                   : selectedSchedule.computedStatus === 'cancelled'
                     ? 'bg-gradient-to-r from-red-600 to-red-500'
                     : 'bg-gradient-to-r from-gray-600 to-gray-500'
-              }
-            `}>
+              }`}>
               <div className="flex items-start justify-between">
                 <div>
                   <h2 className="font-serif font-bold text-xl mb-2">{selectedSchedule.title}</h2>
@@ -780,10 +796,10 @@ export function PerformanceSchedule() {
               )}
             </div>
 
-            <div className="p-6 overflow-y-auto" style={{ maxHeight: 'calc(90vh - 140px)' }}>
+            <div className="p-4 md:p-6 overflow-y-auto" style={{ maxHeight: 'calc(92vh - 140px)' }}>
               <div className="space-y-6">
                 {/* 基本信息 */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="bg-gray-50 rounded-lg p-3">
                     <div className="text-sm text-gray-500 mb-1">演出地点</div>
                     <div className="font-medium">{selectedSchedule.location}</div>
@@ -848,7 +864,7 @@ export function PerformanceSchedule() {
               </div>
             </div>
 
-            <div className="border-t border-gray-200 px-6 py-4">
+            <div className="border-t border-gray-200 px-4 md:px-6 py-3 md:py-4">
               <button
                 onClick={() => setSelectedSchedule(null)}
                 className="w-full py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-gray-700"

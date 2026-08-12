@@ -1,9 +1,14 @@
 import { MapPin, Phone, Mail } from 'lucide-react';
+import { ShinyText } from '@/components/reactbits';
 
 export function Footer() {
   return (
-    <footer className="bg-yingge-dark text-white">
-      <div className="container mx-auto px-4 py-8 md:py-12">
+    <footer className="relative overflow-hidden text-white"
+      style={{
+        background: 'linear-gradient(180deg, #8B0000 0%, #6B0000 40%, #4a0000 100%)',
+      }}
+    >
+      <div className="container mx-auto px-4 py-8 md:py-12 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8">
           <div className="md:col-span-2">
             <div className="flex items-center mb-4">
@@ -11,7 +16,9 @@ export function Footer() {
                 <span className="text-yingge-red font-serif font-bold text-xl">焕</span>
               </div>
               <div>
-                <h3 className="font-serif font-bold text-lg text-white">云焕非遗</h3>
+                <h3 className="font-serif font-bold text-lg text-white">
+                  <ShinyText text="云焕非遗" speed={5} />
+                </h3>
                 <p className="text-xs text-yingge-gold">英歌文化数字展示平台</p>
               </div>
             </div>
@@ -21,7 +28,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-serif font-bold text-white mb-4 pb-2 border-b border-white/10">
+            <h4 className="font-serif font-bold text-white mb-4 pb-2 border-b border-white/20">
               快速链接
             </h4>
             <ul className="space-y-2">
@@ -54,7 +61,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-serif font-bold text-white mb-4 pb-2 border-b border-white/10">
+            <h4 className="font-serif font-bold text-white mb-4 pb-2 border-b border-white/20">
               联系我们
             </h4>
             <ul className="space-y-3">
@@ -75,7 +82,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-white/10">
+      <div className="border-t border-white/20">
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col md:flex-row items-center justify-between text-xs text-white/50 space-y-2 md:space-y-0">
             <p>
@@ -92,37 +99,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-white/5 bg-yingge-dark/50">
-        <div className="container mx-auto px-4 py-3">
-          <div style={{ textAlign: 'center', fontSize: '13px', lineHeight: '1.8', color: '#9ca3af' }}>
-            本站图像服务由
-            <a
-              href="https://www.beeimg.cn/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="蜜蜂图床"
-              style={{ textDecoration: 'none', verticalAlign: 'middle', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
-              onMouseOver={(e) => {
-                const span = (e.currentTarget as HTMLElement).querySelector('span');
-                if (span) span.style.color = '#0ea5e9';
-              }}
-              onMouseOut={(e) => {
-                const span = (e.currentTarget as HTMLElement).querySelector('span');
-                if (span) span.style.color = '#38bdf8';
-              }}
-            >
-              <img
-                src="https://www.beeimg.cn/favicon.png"
-                alt="蜜蜂图床"
-                style={{ height: '16px', verticalAlign: 'middle', border: 'none' }}
-                loading="lazy"
-              />
-              <span style={{ color: '#38bdf8', fontWeight: '700' }}>蜜蜂图床</span>
-            </a>
-            提供
-          </div>
-        </div>
-      </div>
+     
     </footer>
   );
 }

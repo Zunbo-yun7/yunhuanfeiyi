@@ -2,6 +2,7 @@ import { useState } from 'react';
 import useFetchData from '@/hooks/useFetchData';
 import { ActionCard } from '../components/Card';
 import { Play, Info, X } from 'lucide-react';
+import { Aurora, ShinyText, BorderGlow } from '@/components/reactbits';
 
 interface ActionItem {
   id: string;
@@ -42,15 +43,24 @@ export function ActionAtlas() {
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/60" />
+        {/* React Bits: Aurora 极光波纹背景动画 */}
+        <Aurora
+          colorStops={['#B22222', '#C8A060', '#8B0000']}
+          amplitude={1.2}
+          speed={0.4}
+          blend={0.45}
+        />
         <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-4">
-          <h1 className="font-serif font-bold text-3xl md:text-5xl text-white mb-2">
-            动作图谱
-          </h1>
+          <ShinyText
+            text="动作图谱"
+            speed={4}
+            className="font-serif font-bold text-3xl md:text-5xl mb-2"
+          />
           <p className="text-yingge-gold">学习英歌的经典动作</p>
         </div>
       </section>
 
-      <section className="py-16 px-4">
+      <section id="classic" className="py-16 px-4">
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-serif font-bold text-3xl text-yingge-dark mb-4">
@@ -64,16 +74,23 @@ export function ActionAtlas() {
 
           <div className="space-y-6">
             {actionsData.actions.map((action, index) => (
-              <ActionCard
+              <BorderGlow
                 key={action.id}
-                title={action.name}
-                subtitle={action.pinyin}
-                description={action.description}
-                image={action.image}
-                onClick={() => setSelectedAction(action)}
+                glowIntensity={0.5}
+                borderColor="rgba(200, 160, 96, 0.3)"
+                glowColor="#C8A060"
+                borderRadius={16}
                 className="animate-slide-up"
                 style={{ animationDelay: `${index * 100}ms` }}
-              />
+              >
+                <ActionCard
+                  title={action.name}
+                  subtitle={action.pinyin}
+                  description={action.description}
+                  image={action.image}
+                  onClick={() => setSelectedAction(action)}
+                />
+              </BorderGlow>
             ))}
           </div>
         </div>

@@ -2,6 +2,8 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import { Download, RotateCcw, Eye, Palette, Sparkles, ChevronRight, Maximize2, Minimize2, ZoomIn, ZoomOut, Wand2, X, RefreshCw, ChevronDown, Info } from 'lucide-react';
 import { svgToPngBase64, downloadBase64Image } from '../utils/imageUtils';
 import { aiClient, AIModel } from '../utils/deepseek';
+// React Bits 视觉增强组件
+import { Aurora, ShinyText } from '@/components/reactbits';
 
 interface MaskRegion {
   id: string;
@@ -367,8 +369,19 @@ export function MaskDIY() {
         <section className="relative h-48 md:h-56 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-yingge-red via-red-700 to-red-900" />
           <div className="absolute inset-0 opacity-20" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")` }} />
+          {/* Aurora 极光波纹背景动画 */}
+          <Aurora
+            colorStops={['#C8A060', '#B22222', '#FFD700']}
+            amplitude={1}
+            speed={0.4}
+            blend={0.4}
+          />
           <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-4">
-            <h1 className="font-serif font-bold text-3xl md:text-4xl text-white mb-2">英歌舞脸谱DIY</h1>
+            <ShinyText
+              text="英歌舞脸谱DIY"
+              speed={4}
+              className="font-serif font-bold text-3xl md:text-4xl mb-2"
+            />
             <p className="text-yingge-gold text-sm md:text-base">参考108将真实脸谱 · 自由创作专属谱式</p>
           </div>
         </section>
@@ -378,7 +391,7 @@ export function MaskDIY() {
         {!isFullscreen ? (
           <div className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              <div className="lg:col-span-2">
+              <div id="color" className="lg:col-span-2">
                 <div className="bg-white rounded-xl card-shadow p-5 sticky top-6">
                   <h3 className="font-serif font-bold text-base text-yingge-dark mb-3 flex items-center gap-2"><Palette className="text-yingge-red" size={18} />选择颜色</h3>
                   <div className="flex items-center gap-3 mb-3">
@@ -394,7 +407,7 @@ export function MaskDIY() {
                     ))}
                   </div>
 
-                  <div className="mt-4 pt-4 border-t border-gray-100">
+                  <div id="pattern" className="mt-4 pt-4 border-t border-gray-100">
                     <h3 className="font-serif font-bold text-sm text-yingge-dark mb-3">花纹样式</h3>
                     <div className="grid grid-cols-2 gap-2">
                       {patterns.map((p) => (
@@ -403,7 +416,7 @@ export function MaskDIY() {
                     </div>
                   </div>
 
-                  <div className="mt-4 pt-4 border-t border-gray-100 space-y-2">
+                  <div id="preview" className="mt-4 pt-4 border-t border-gray-100 space-y-2">
                     <button onClick={() => setShowPreview(!showPreview)} className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-yingge-gold/10 text-yingge-gold rounded-lg font-medium hover:bg-yingge-gold/20 transition-colors text-sm"><Eye size={16} />{showPreview ? '关闭预览' : '3D预览'}</button>
                     <button onClick={() => setIsFullscreen(true)} className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-yingge-red/10 text-yingge-red rounded-lg font-medium hover:bg-yingge-red/20 transition-colors text-sm"><Maximize2 size={16} />全屏绘图</button>
                     <button onClick={() => setShowFaceMaskModal(true)} className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition-all text-sm shadow-md shadow-purple-500/25"><Wand2 size={16} />AI变脸</button>
@@ -469,7 +482,7 @@ export function MaskDIY() {
                 </div>
               </div>
 
-              <div className="lg:col-span-4">
+              <div id="region" className="lg:col-span-4">
                 <div className="bg-white rounded-xl card-shadow p-5 sticky top-6">
                   <h3 className="font-serif font-bold text-base text-yingge-dark mb-3">脸谱区域 · 共{maskRegions.length}处</h3>
                   <p className="text-xs text-gray-500 mb-3">点击区域可快速上色（对称区域自动同步）</p>
@@ -505,7 +518,7 @@ export function MaskDIY() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl card-shadow p-5">
+            <div id="classic" className="bg-white rounded-xl card-shadow p-5">
               <h3 className="font-serif font-bold text-base text-yingge-dark mb-4 flex items-center gap-2"><Sparkles className="text-yingge-gold" size={18} />经典谱式</h3>
               <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
                 {maskTemplates.map((t) => (

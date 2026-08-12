@@ -218,8 +218,11 @@ export function AdminSchedules() {
       await api.delete(`/schedules/${id}`);
       setMessage({ type: 'success', text: '删除成功' });
       fetchSchedules();
-    } catch (error) {
-      setMessage({ type: 'error', text: '删除失败' });
+    } catch (err: any) {
+      const msg = err.response?.status === 401
+        ? '登录已过期，请重新登录'
+        : err.response?.data?.message || '删除失败，请稍后重试';
+      setMessage({ type: 'error', text: msg });
     }
     setTimeout(() => setMessage({ type: '', text: '' }), 3000);
   };

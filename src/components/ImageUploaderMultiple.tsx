@@ -9,6 +9,7 @@ interface ImageUploaderMultipleProps {
   accept?: string;
   maxSize?: number;
   disabled?: boolean;
+  category?: string;
 }
 
 export function ImageUploaderMultiple({
@@ -18,6 +19,7 @@ export function ImageUploaderMultiple({
   accept = 'image/*',
   maxSize = 10 * 1024 * 1024,
   disabled = false,
+  category = 'default',
 }: ImageUploaderMultipleProps) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
@@ -55,6 +57,7 @@ export function ImageUploaderMultiple({
       for (const file of validFiles) {
         const formData = new FormData();
         formData.append('image', file);
+        formData.append('category', category);
 
         const response = await api.post('/upload/image', formData, {
           headers: {

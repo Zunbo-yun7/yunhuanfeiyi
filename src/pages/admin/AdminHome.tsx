@@ -139,6 +139,7 @@ export function AdminHome() {
                 onChange={(url) =>
                   setFormData({ ...formData, hero: { ...formData.hero, backgroundImage: url } })
                 }
+                category="home-data"
               />
             </div>
             <div className="md:col-span-2">

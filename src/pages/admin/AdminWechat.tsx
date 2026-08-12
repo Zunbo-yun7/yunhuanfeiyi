@@ -308,6 +308,7 @@ export function AdminWechat() {
                   label="缩略图"
                   value={formData.thumbnail_url}
                   onChange={(url) => setFormData({ ...formData, thumbnail_url: url })}
+                  category="wechat-articles"
                 />
               </div>
               <div className="flex items-center">

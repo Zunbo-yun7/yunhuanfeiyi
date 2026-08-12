@@ -362,6 +362,7 @@ export function AdminXintan() {
                 onChange={(url) =>
                   setFormData({ ...formData, village: { ...formData.village, image: url } })
                 }
+                category="xintan-village"
               />
             </div>
           </div>
@@ -408,6 +409,7 @@ export function AdminXintan() {
                 label="图片"
                 value={formData.teamImagesStr}
                 onChange={(urls) => setFormData({ ...formData, teamImagesStr: urls })}
+                category="xintan-team"
               />
             </div>
           </div>
@@ -517,6 +519,7 @@ export function AdminXintan() {
                 label="训练图片"
                 value={formData.trainingImagesStr}
                 onChange={(urls) => setFormData({ ...formData, trainingImagesStr: urls })}
+                category="xintan-training"
               />
             </div>
           </div>
@@ -823,6 +826,7 @@ export function AdminXintan() {
                   label="图片"
                   value={editingStory.image}
                   onChange={(url) => setEditingStory({ ...editingStory, image: url })}
+                  category="xintan-stories"
                 />
               </div>
               <div>
@@ -931,6 +935,7 @@ export function AdminXintan() {
                   label="头像"
                   value={editingMember.avatar}
                   onChange={(url) => setEditingMember({ ...editingMember, avatar: url })}
+                  category="xintan-members"
                 />
               </div>
               <div>

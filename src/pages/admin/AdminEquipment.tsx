@@ -557,6 +557,7 @@ export function AdminEquipment() {
                   label="图片"
                   value={editingItem.image}
                   onChange={(url) => setEditingItem({ ...editingItem, image: url })}
+                  category="equipment-items"
                 />
               </div>
               <div>

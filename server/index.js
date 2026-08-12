@@ -19,6 +19,7 @@ import scheduleLocationsRoutes from "./routes/schedule-locations.js";
 import scheduleCastRoutes from "./routes/schedule-cast.js";
 import newsRoutes from "./routes/news.js";
 import wechatRoutes from "./routes/wechat.js";
+import creativeRoutes from "./routes/creative.js";
 
 dotenv.config();
 
@@ -54,6 +55,7 @@ app.use("/api/schedule-locations", scheduleLocationsRoutes);
 app.use("/api/schedule-cast", scheduleCastRoutes);
 app.use("/api/news", newsRoutes);
 app.use("/api/wechat", wechatRoutes);
+app.use("/api/creative", creativeRoutes);
 
 app.use((err, req, res, next) => {
     console.error(err.stack);

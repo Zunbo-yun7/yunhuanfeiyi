@@ -227,6 +227,25 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
+// 更新排序（需登录）
+router.put("/reorder", authMiddleware, async (req, res) => {
+  try {
+    const { order } = req.body; // [{id, sort_order}]
+
+    for (const item of order) {
+      await pool.query(
+        "UPDATE schedules SET sort_order = ? WHERE id = ?",
+        [item.sort_order, item.id]
+      );
+    }
+
+    res.json({ success: true, message: "排序更新成功" });
+  } catch (error) {
+    console.error("Reorder schedules error:", error);
+    res.status(500).json({ message: "服务器错误" });
+  }
+});
+
 // 更新演出（需登录）
 router.put("/:id", authMiddleware, async (req, res) => {
   try {
@@ -268,25 +287,6 @@ router.put("/:id", authMiddleware, async (req, res) => {
     res.json({ success: true, message: "更新成功" });
   } catch (error) {
     console.error("Update schedule error:", error);
-    res.status(500).json({ message: "服务器错误" });
-  }
-});
-
-// 更新排序（需登录）
-router.put("/reorder", authMiddleware, async (req, res) => {
-  try {
-    const { order } = req.body; // [{id, sort_order}]
-
-    for (const item of order) {
-      await pool.query(
-        "UPDATE schedules SET sort_order = ? WHERE id = ?",
-        [item.sort_order, item.id]
-      );
-    }
-
-    res.json({ success: true, message: "排序更新成功" });
-  } catch (error) {
-    console.error("Reorder schedules error:", error);
     res.status(500).json({ message: "服务器错误" });
   }
 });

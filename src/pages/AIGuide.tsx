@@ -3,6 +3,8 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useDeepseek } from '../hooks/useDeepseek';
 import { Send, Bot, RefreshCw, MessageCircle, Sparkles, GripVertical, Maximize2, Minimize2, X, ChevronDown, Info } from 'lucide-react';
+// 引入 React Bits 视觉增强组件
+import { Strands, ShinyText } from '@/components/reactbits';
 
 export function AIGuide() {
   const { messages, isLoading, error, sendMessage, clearMessages, models, selectedModel, setSelectedModel, loadingModels, getCurrentModelInfo } = useDeepseek();
@@ -124,13 +126,23 @@ export function AIGuide() {
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/60" />
+        {/* Strands 流动光带背景动画 - 仅限于顶部 hero 区域，不影响下方聊天内容 */}
+        <Strands
+          colors={['#B22222', '#C8A060', '#2C2C2C']}
+          count={4}
+          speed={0.4}
+          amplitude={0.8}
+          opacity={0.5}
+        />
         <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-4">
           <div className="w-16 h-16 bg-yingge-gold rounded-full flex items-center justify-center mb-4">
             <Bot size={32} className="text-yingge-red" />
           </div>
-          <h1 className="font-serif font-bold text-3xl md:text-5xl text-white mb-2">
-            AI导游
-          </h1>
+          <ShinyText
+            text="AI导游"
+            speed={4}
+            className="font-serif text-3xl md:text-5xl mb-2"
+          />
           <p className="text-yingge-gold">智能问答，探索英歌奥秘</p>
         </div>
       </section>

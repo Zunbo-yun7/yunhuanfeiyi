@@ -2,6 +2,7 @@ import useFetchData from '@/hooks/useFetchData';
 import { Card } from '../components/Card';
 import { MapPin, Award, Calendar, Video, Compass, Sun, Trees, Navigation } from 'lucide-react';
 import { MiniMap } from '../components/MiniMap';
+import { Strands, ShinyText, BorderGlow } from '@/components/reactbits';
 
 interface VillageData {
   name: string;
@@ -115,10 +116,22 @@ export function XintanYingge() {
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/60" />
+        {/* WebGL 流动光带背景动画，使用英歌主题色 */}
+        <Strands
+          colors={['#B22222', '#C8A060', '#8B0000', '#2C2C2C']}
+          count={4}
+          speed={0.3}
+          amplitude={0.8}
+          intensity={0.4}
+          opacity={0.5}
+          scale={2}
+        />
         <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-4">
-          <h1 className="font-serif font-bold text-3xl md:text-5xl text-white mb-2">
-            新坛英歌
-          </h1>
+          <ShinyText
+            text="新坛英歌"
+            speed={4}
+            className="font-serif font-bold text-3xl md:text-5xl mb-2"
+          />
           <p className="text-yingge-gold">探访新坛村的英歌传奇</p>
         </div>
       </section>
@@ -133,23 +146,31 @@ export function XintanYingge() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
-            <div className="relative rounded-2xl overflow-hidden h-full min-h-[360px]">
-              <img
-                src={village.image}
-                alt={village.name}
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <div className="flex items-center gap-2 text-white mb-2">
-                  <MapPin size={20} className="text-yingge-gold" />
-                  <span className="font-medium">{village.address}</span>
+            <BorderGlow
+              className="h-full min-h-[360px]"
+              glowIntensity={0.5}
+              glowColor="#C8A060"
+              borderColor="rgba(200, 160, 96, 0.3)"
+              borderRadius={16}
+            >
+              <div className="relative w-full h-full min-h-[360px]">
+                <img
+                  src={village.image}
+                  alt={village.name}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <div className="flex items-center gap-2 text-white mb-2">
+                    <MapPin size={20} className="text-yingge-gold" />
+                    <span className="font-medium">{village.address}</span>
+                  </div>
+                  <p className="text-white/80 text-sm">
+                    坐标：东经 {village.longitude}°，北纬 {village.latitude}°
+                  </p>
                 </div>
-                <p className="text-white/80 text-sm">
-                  坐标：东经 {village.longitude}°，北纬 {village.latitude}°
-                </p>
               </div>
-            </div>
+            </BorderGlow>
 
             <div className="flex flex-col justify-center">
               <div className="flex items-center mb-6">
@@ -191,9 +212,13 @@ export function XintanYingge() {
                 {geoCards.map((card) => {
                   const Icon = card.icon;
                   return (
-                    <div
+                    <BorderGlow
                       key={card.title}
-                      className={`bg-white rounded-xl p-5 border ${card.color} hover:shadow-md transition-shadow duration-300`}
+                      className={`bg-white p-5 ${card.color} hover:shadow-md transition-shadow duration-300`}
+                      glowIntensity={0.5}
+                      glowColor="#C8A060"
+                      borderColor="rgba(200, 160, 96, 0.3)"
+                      borderRadius={12}
                     >
                       <div className="flex items-start gap-4">
                         <div className={`w-11 h-11 rounded-lg ${card.iconBg} flex items-center justify-center flex-shrink-0`}>
@@ -204,7 +229,7 @@ export function XintanYingge() {
                           <p className="text-sm leading-relaxed opacity-90">{card.content}</p>
                         </div>
                       </div>
-                    </div>
+                    </BorderGlow>
                   );
                 })}
               </div>
@@ -213,7 +238,7 @@ export function XintanYingge() {
         </div>
       </section>
 
-      <section className="py-16 px-4">
+      <section id="team" className="py-16 px-4">
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-serif font-bold text-3xl text-yingge-dark mb-4">
@@ -222,7 +247,13 @@ export function XintanYingge() {
             <div className="w-20 h-1 bg-yingge-gold mx-auto rounded-full" />
           </div>
 
-          <div className="bg-white rounded-2xl card-shadow p-8 mb-8">
+          <BorderGlow
+            className="bg-white card-shadow p-8 mb-8"
+            glowIntensity={0.5}
+            glowColor="#C8A060"
+            borderColor="rgba(200, 160, 96, 0.3)"
+            borderRadius={16}
+          >
             <div className="flex flex-wrap items-center gap-4 mb-6">
               <div className="flex items-center">
                 <Calendar size={20} className="text-yingge-red mr-2" />
@@ -249,10 +280,17 @@ export function XintanYingge() {
                 </div>
               ))}
             </div>
-          </div>
+          </BorderGlow>
 
           {/* 奖状展示 */}
-          <div className="bg-white rounded-2xl card-shadow p-8 mb-8">
+          <BorderGlow
+            id="honors"
+            className="bg-white card-shadow p-8 mb-8"
+            glowIntensity={0.5}
+            glowColor="#B22222"
+            borderColor="rgba(178, 34, 34, 0.2)"
+            borderRadius={16}
+          >
             <div className="text-center mb-6">
               <h3 className="font-serif font-bold text-2xl text-yingge-dark mb-2">
                 荣誉资质
@@ -305,7 +343,7 @@ export function XintanYingge() {
                 </div>
               </div>
             </div>
-          </div>
+          </BorderGlow>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {team.images.map((image, index) => (
@@ -337,19 +375,26 @@ export function XintanYingge() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {training.images.map((image, index) => (
-              <Card
+              <BorderGlow
                 key={index}
-                title={`训练场景 ${index + 1}`}
-                image={image}
                 className="animate-slide-up"
+                glowIntensity={0.5}
+                glowColor="#C8A060"
+                borderColor="rgba(200, 160, 96, 0.3)"
+                borderRadius={12}
                 style={{ animationDelay: `${index * 100}ms` }}
-              />
+              >
+                <Card
+                  title={`训练场景 ${index + 1}`}
+                  image={image}
+                />
+              </BorderGlow>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-16 px-4 bg-white">
+      <section id="inheritance" className="py-16 px-4 bg-white">
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-serif font-bold text-3xl text-yingge-dark mb-4">
@@ -360,20 +405,27 @@ export function XintanYingge() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {stories.map((story, index) => (
-              <Card
+              <BorderGlow
                 key={index}
-                title={story.title}
-                description={story.content}
-                image={story.image}
                 className="animate-slide-up"
+                glowIntensity={0.5}
+                glowColor="#B22222"
+                borderColor="rgba(178, 34, 34, 0.2)"
+                borderRadius={12}
                 style={{ animationDelay: `${index * 100}ms` }}
-              />
+              >
+                <Card
+                  title={story.title}
+                  description={story.content}
+                  image={story.image}
+                />
+              </BorderGlow>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-16 px-4">
+      <section id="members" className="py-16 px-4">
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-serif font-bold text-3xl text-yingge-dark mb-4">
@@ -387,9 +439,13 @@ export function XintanYingge() {
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
             {members.map((member, index) => (
-              <div
+              <BorderGlow
                 key={index}
-                className="bg-white rounded-xl card-shadow overflow-hidden hover:shadow-lg transition-shadow duration-300 animate-slide-up"
+                className="bg-white card-shadow hover:shadow-lg transition-shadow duration-300 animate-slide-up"
+                glowIntensity={0.4}
+                glowColor="#C8A060"
+                borderColor="rgba(200, 160, 96, 0.3)"
+                borderRadius={12}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 {member.avatar ? (
@@ -450,7 +506,7 @@ export function XintanYingge() {
                     </p>
                   )}
                 </div>
-              </div>
+              </BorderGlow>
             ))}
           </div>
 

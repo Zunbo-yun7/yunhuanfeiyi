@@ -295,6 +295,7 @@ export function AdminNews() {
                   label="缩略图"
                   value={formData.thumbnail_url}
                   onChange={(url) => setFormData({ ...formData, thumbnail_url: url })}
+                  category="news-articles"
                 />
               </div>
               <div>

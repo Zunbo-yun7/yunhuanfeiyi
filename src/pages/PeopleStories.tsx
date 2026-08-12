@@ -1,6 +1,8 @@
 import useFetchData from '@/hooks/useFetchData';
 import { PeopleCard } from '../components/Card';
 import { Award, Users, Star } from 'lucide-react';
+// 引入 React Bits 视觉增强组件
+import { Aurora, ShinyText, BorderGlow } from '@/components/reactbits';
 
 const iconMap = {
   Award,
@@ -51,15 +53,24 @@ export function PeopleStories() {
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/60" />
+        {/* Aurora 极光波纹背景动画 - 营造流动氛围 */}
+        <Aurora
+          colorStops={['#B22222', '#C8A060', '#2C2C2C']}
+          amplitude={1.2}
+          speed={0.4}
+          blend={0.4}
+        />
         <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-4">
-          <h1 className="font-serif font-bold text-3xl md:text-5xl text-white mb-2">
-            人物故事
-          </h1>
+          <ShinyText
+            text="人物故事"
+            speed={4}
+            className="font-serif text-3xl md:text-5xl mb-2"
+          />
           <p className="text-yingge-gold">聆听传承人的感人故事</p>
         </div>
       </section>
 
-      <section className="py-16 px-4">
+      <section id="people" className="py-16 px-4">
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-serif font-bold text-3xl text-yingge-dark mb-4">
@@ -93,16 +104,25 @@ export function PeopleStories() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {category.people.map((person, personIndex) => (
-                    <PeopleCard
+                    // BorderGlow 鼠标跟随边框发光效果，增强卡片视觉层次
+                    <BorderGlow
                       key={person.id}
-                      name={person.name}
-                      role={person.role}
-                      avatar={person.avatar}
-                      story={person.story}
-                      achievements={person.achievements}
-                      className="animate-slide-up"
-                      style={{ animationDelay: `${personIndex * 100}ms` }}
-                    />
+                      glowIntensity={0.5}
+                      glowColor="#C8A060"
+                      borderColor="rgba(200, 160, 96, 0.4)"
+                      borderRadius={12}
+                      className="h-full"
+                    >
+                      <PeopleCard
+                        name={person.name}
+                        role={person.role}
+                        avatar={person.avatar}
+                        story={person.story}
+                        achievements={person.achievements}
+                        className="animate-slide-up h-full"
+                        style={{ animationDelay: `${personIndex * 100}ms` }}
+                      />
+                    </BorderGlow>
                   ))}
                 </div>
               </section>
@@ -113,9 +133,11 @@ export function PeopleStories() {
 
       <section className="py-16 px-4 bg-yingge-dark">
         <div className="container mx-auto text-center">
-          <h2 className="font-serif font-bold text-3xl text-white mb-4">
-            传承之路，任重道远
-          </h2>
+          <ShinyText
+            text="传承之路，任重道远"
+            speed={4}
+            className="font-serif text-3xl mb-4"
+          />
           <div className="w-20 h-1 bg-yingge-gold mx-auto rounded-full mb-8" />
           <p className="text-yingge-light/70 max-w-2xl mx-auto mb-8">
             每一位传承人都是英歌文化的守护者。他们用自己的青春和汗水，将这项珍贵的非物质文化遗产一代一代地传承下去。让我们向这些默默奉献的传承人致敬！

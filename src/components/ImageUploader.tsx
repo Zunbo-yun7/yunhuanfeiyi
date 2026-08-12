@@ -9,6 +9,7 @@ interface ImageUploaderProps {
   accept?: string;
   maxSize?: number;
   disabled?: boolean;
+  category?: string;
 }
 
 export function ImageUploader({
@@ -18,6 +19,7 @@ export function ImageUploader({
   accept = 'image/*',
   maxSize = 10 * 1024 * 1024,
   disabled = false,
+  category = 'default',
 }: ImageUploaderProps) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
@@ -42,6 +44,7 @@ export function ImageUploader({
     try {
       const formData = new FormData();
       formData.append('image', file);
+      formData.append('category', category);
 
       const response = await api.post('/upload/image', formData, {
         headers: {

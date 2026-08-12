@@ -38,6 +38,7 @@ import { SectionHeader } from '@/components/SectionHeader';
 import { Strands, ShinyText, BorderGlow } from '@/components/reactbits';
 import { lazy, Suspense } from 'react';
 const MascotAndCreative = lazy(() => import('@/components/MascotAndCreative').then(m => ({ default: m.MascotAndCreative })));
+const InteractivePoster = lazy(() => import('@/components/InteractivePoster').then(m => ({ default: m.InteractivePoster })));
 
 interface ChallengeItem {
   icon: string;
@@ -846,6 +847,11 @@ export function Home() {
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-b from-transparent via-white/50 to-white pointer-events-none" />
       </section>
+
+      {/* 交互式文创海报 */}
+      <Suspense fallback={<div className="h-[400px] flex items-center justify-center bg-white"><div className="w-10 h-10 rounded-full border-2 border-yingge-gold/20 border-t-yingge-gold animate-spin" /></div>}>
+        <InteractivePoster />
+      </Suspense>
 
       <section id="practice" className="py-20 px-4 relative overflow-hidden"
         style={{

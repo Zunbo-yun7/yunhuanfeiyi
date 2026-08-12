@@ -32,6 +32,7 @@ const AdminNews = lazy(() => import("@/pages/admin/AdminNews").then((mod) => ({ 
 const AdminWechat = lazy(() => import("@/pages/admin/AdminWechat").then((mod) => ({ default: mod.AdminWechat })));
 const AdminSchedules = lazy(() => import("@/pages/admin/AdminSchedules").then((mod) => ({ default: mod.AdminSchedules })));
 const AdminCreative = lazy(() => import("@/pages/admin/AdminCreative").then((mod) => ({ default: mod.AdminCreative })));
+const AdminPoster = lazy(() => import("@/pages/admin/AdminPoster").then((mod) => ({ default: mod.AdminPoster })));
 
 function Loading() {
   return (
@@ -90,6 +91,7 @@ export default function App() {
             <Route path="news" element={<AdminNews />} />
             <Route path="wechat" element={<AdminWechat />} />
             <Route path="creative" element={<AdminCreative />} />
+            <Route path="poster" element={<AdminPoster />} />
           </Route>
           <Route element={<UserLayout />}>
             <Route path="/" element={<Home />} />

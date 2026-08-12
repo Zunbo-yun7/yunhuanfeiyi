@@ -13,7 +13,7 @@ import {
 import { SectionHeader } from './SectionHeader';
 import { Gift, Star, Heart, ShoppingBag, Sparkles, ChevronRight, X, Download, Eye } from 'lucide-react';
 import api from '@/lib/api';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { KivicubeAR } from './KivicubeAR';
 
 // 表情包类型
@@ -54,6 +54,11 @@ export function MascotAndCreative({ mode = 'full' }: MascotAndCreativeProps) {
   const [featuredProducts, setFeaturedProducts] = useState<CreativeProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  // 从 URL 参数读取分类和滚动目标 (从交互海报跳转时使用)
+  const targetCategory = searchParams.get('category');
+  const targetScroll = searchParams.get('scroll');
 
   // 表情包相关状态
   const [stickers, setStickers] = useState<Sticker[]>([]);
@@ -70,6 +75,23 @@ export function MascotAndCreative({ mode = 'full' }: MascotAndCreativeProps) {
       fetchStickers();
     }
   }, [mode]);
+
+  // 数据加载完成后,如果 URL 带有 category 参数,设置分类并滚动到目标区域
+  useEffect(() => {
+    if (mode !== 'full' || loading) return;
+    if (targetCategory) {
+      setActiveCategory(targetCategory);
+    }
+    if (targetScroll) {
+      // 等待 DOM 更新后滚动
+      setTimeout(() => {
+        const el = document.getElementById(targetScroll);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 300);
+    }
+  }, [mode, loading, targetCategory, targetScroll]);
 
   const fetchAllProducts = async () => {
     try {

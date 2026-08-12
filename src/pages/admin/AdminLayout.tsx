@@ -17,6 +17,7 @@ import {
   Newspaper,
   MessageCircle,
   Gift,
+  Map as ImageMap,
 } from 'lucide-react';
 
 const menuItems = [
@@ -32,6 +33,7 @@ const menuItems = [
   { path: '/admin/schedules', label: '演出时间表', icon: Calendar },
   { path: '/admin/logs', label: '实践日志', icon: FileText },
   { path: '/admin/creative', label: '文创商品', icon: Gift },
+  { path: '/admin/poster', label: '海报热点', icon: ImageMap },
 ];
 
 export function AdminLayout() {

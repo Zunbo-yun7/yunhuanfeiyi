@@ -20,6 +20,7 @@ import scheduleCastRoutes from "./routes/schedule-cast.js";
 import newsRoutes from "./routes/news.js";
 import wechatRoutes from "./routes/wechat.js";
 import creativeRoutes from "./routes/creative.js";
+import posterRoutes from "./routes/poster.js";
 
 dotenv.config();
 
@@ -56,6 +57,7 @@ app.use("/api/schedule-cast", scheduleCastRoutes);
 app.use("/api/news", newsRoutes);
 app.use("/api/wechat", wechatRoutes);
 app.use("/api/creative", creativeRoutes);
+app.use("/api/poster", posterRoutes);
 
 app.use((err, req, res, next) => {
     console.error(err.stack);

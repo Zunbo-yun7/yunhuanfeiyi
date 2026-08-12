@@ -87,7 +87,7 @@ export function Notices() {
         </div>
       </section>
 
-      <section className="py-12 md:py-16 px-4">
+      <section className="py-20 px-4">
         <div className="container mx-auto max-w-4xl">
           {sortedArticles.length === 0 ? (
             <div className="py-16 text-center text-yingge-dark/40">

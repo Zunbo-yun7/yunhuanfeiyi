@@ -73,7 +73,7 @@ export function AboutYingge() {
         </div>
       </section>
 
-      <section id="intro" className="py-16 px-4">
+      <section id="intro" className="py-20 px-4">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
             <h2 className="font-serif font-bold text-3xl text-yingge-dark mb-4">
@@ -95,7 +95,7 @@ export function AboutYingge() {
         </div>
       </section>
 
-      <section id="history" className="py-16 px-4 bg-white">
+      <section id="history" className="py-20 px-4 bg-white">
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-serif font-bold text-3xl text-yingge-dark mb-4">
@@ -139,7 +139,7 @@ export function AboutYingge() {
         </div>
       </section>
 
-      <section id="art" className="py-16 px-4">
+      <section id="art" className="py-20 px-4">
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-serif font-bold text-3xl text-yingge-dark mb-4">
@@ -170,7 +170,7 @@ export function AboutYingge() {
         </div>
       </section>
 
-      <section id="schools" className="py-16 px-4 bg-gradient-to-b from-yingge-light to-white">
+      <section id="schools" className="py-20 px-4 bg-gradient-to-b from-yingge-light to-white">
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-serif font-bold text-3xl text-yingge-dark mb-4">

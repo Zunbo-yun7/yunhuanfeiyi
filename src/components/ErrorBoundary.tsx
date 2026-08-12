@@ -37,7 +37,7 @@ export class ErrorBoundary extends Component<Props, State> {
           boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
           fontFamily: 'monospace',
         }}>
-          <h2 style={{ color: '#B22222', marginBottom: '16px' }}>页面渲染出错</h2>
+          <h2 className="text-yingge-red mb-4">页面渲染出错</h2>
           <div style={{
             padding: '16px',
             background: '#fef2f2',

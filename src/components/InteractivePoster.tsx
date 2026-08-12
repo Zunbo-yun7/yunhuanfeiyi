@@ -131,7 +131,7 @@ export function InteractivePoster() {
   if (loading) {
     return (
       <section className="py-20 px-4">
-        <div className="container mx-auto max-w-5xl">
+        <div className="container mx-auto max-w-6xl">
           <div className="flex items-center justify-center py-20">
             <div className="w-10 h-10 border-2 border-yingge-gold/20 border-t-yingge-gold rounded-full animate-spin" />
           </div>
@@ -223,7 +223,7 @@ export function InteractivePoster() {
                     : 'bg-white text-yingge-dark/70 border-yingge-dark/10 hover:border-yingge-gold/40'
                 }`}
               >
-                <Sparkles className="w-3 h-3" style={{ color: hoveredId === spot.id ? '#fff' : '#C8A060' }} />
+                <Sparkles className={`w-3 h-3 ${hoveredId === spot.id ? 'text-white' : 'text-yingge-gold'}`} />
                 {spot.label}
               </motion.button>
             ))}

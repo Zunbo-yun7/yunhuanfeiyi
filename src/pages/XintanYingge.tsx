@@ -136,7 +136,7 @@ export function XintanYingge() {
         </div>
       </section>
 
-      <section className="py-16 px-4">
+      <section className="py-20 px-4">
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-serif font-bold text-3xl text-yingge-dark mb-4">
@@ -360,7 +360,7 @@ export function XintanYingge() {
         </div>
       </section>
 
-      <section className="py-16 px-4">
+      <section className="py-20 px-4">
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-serif font-bold text-3xl text-yingge-dark mb-4">

@@ -419,7 +419,7 @@ export function AIGuide() {
         </div>
       </section>
 
-      <section className="py-16 px-4 bg-white">
+      <section className="py-20 px-4 bg-white">
         <div className="container mx-auto">
           <div className="text-center mb-8">
             <h2 className="font-serif font-bold text-2xl text-yingge-dark mb-4">
